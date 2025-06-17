@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { LabelService } from '../../core/services/label.service';
 import { noWhitespace } from '../../core/validators/noWhitespace.validator';
 import { SUBMIT_BUTTON_TEXT } from '../../shared/view-issue/view-issue.component';
-import { TemplateService } from 'src/app/core/services/template.service';
+import { TemplateService } from '../../core/services/template.service';
 
 @Component({
   selector: 'app-new-template',

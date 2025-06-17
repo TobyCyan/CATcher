@@ -5,6 +5,14 @@
     <div class="row">
       <div class="column left">
         <mat-form-field>
+          <input id="name" formControlName="name" matInput placeholder="Name" required maxlength="256" />
+          <mat-error *ngIf="name.errors && name.errors['required'] && (name.touched || name.dirty)"> Name required. </mat-error>
+          <mat-error *ngIf="name.errors && name.errors['whitespace']"> Name cannot contain only whitespaces. </mat-error>
+          <mat-error *ngIf="name.errors && name.errors['maxlength']"> Name cannot exceed 256 characters. </mat-error>
+          <mat-hint *ngIf="name.value?.length >= 206"> {{ 256 - title.value?.length }} characters remaining. </mat-hint>
+        </mat-form-field>
+
+        <mat-form-field>
           <input id="title" formControlName="title" matInput placeholder="Title" required maxlength="256" />
           <mat-error *ngIf="title.errors && title.errors['required'] && (title.touched || title.dirty)"> Title required. </mat-error>
           <mat-error *ngIf="title.errors && title.errors['whitespace']"> Title cannot contain only whitespaces. </mat-error>

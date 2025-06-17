@@ -5,6 +5,7 @@ import { CanDeactivateIssueGuard } from '../core/guards/can-deactivate-issue-gua
 import { IssueComponent } from './issue/issue.component';
 import { NewIssueComponent } from './new-issue/new-issue.component';
 import { PhaseBugReportingComponent } from './phase-bug-reporting.component';
+import { NewTemplateComponent } from './new-template/new-template.component';
 
 const routes: Routes = [
   { path: 'phaseBugReporting', component: PhaseBugReportingComponent, canActivate: [AuthGuard] },
@@ -17,6 +18,12 @@ const routes: Routes = [
   {
     path: 'phaseBugReporting/issues/:issue_id',
     component: IssueComponent,
+    canActivate: [AuthGuard],
+    canDeactivate: [CanDeactivateIssueGuard]
+  },
+  {
+    path: 'phaseBugReporting/issues/template/new',
+    component: NewTemplateComponent,
     canActivate: [AuthGuard],
     canDeactivate: [CanDeactivateIssueGuard]
   }
