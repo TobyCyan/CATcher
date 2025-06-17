@@ -10,6 +10,7 @@
           <mat-error *ngIf="name.errors && name.errors['whitespace']"> Name cannot contain only whitespaces. </mat-error>
           <mat-error *ngIf="name.errors && name.errors['maxlength']"> Name cannot exceed 256 characters. </mat-error>
           <mat-hint *ngIf="name.value?.length >= 206"> {{ 256 - title.value?.length }} characters remaining. </mat-hint>
+          <mat-hint *ngIf="isNameTaken(name.value)"> Name {{ name.value }} is taken. </mat-hint>
         </mat-form-field>
 
         <mat-form-field>

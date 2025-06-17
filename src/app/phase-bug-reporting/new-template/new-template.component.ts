@@ -5,6 +5,7 @@ import { LabelService } from '../../core/services/label.service';
 import { noWhitespace } from '../../core/validators/noWhitespace.validator';
 import { SUBMIT_BUTTON_TEXT } from '../../shared/view-issue/view-issue.component';
 import { TemplateService } from '../../core/services/template.service';
+import { nameNotTaken } from '../../core/validators/nameNotTaken.validator';
 
 @Component({
   selector: 'app-new-template',
@@ -25,7 +26,7 @@ export class NewTemplateComponent implements OnInit {
 
   ngOnInit() {
     this.newTemplateForm = this.formBuilder.group({
-      name: ['New Template', [Validators.required, Validators.maxLength(256), noWhitespace()]],
+      name: ['New Template', [Validators.required, Validators.maxLength(256), noWhitespace(), nameNotTaken(this.templateService)]],
       title: ['', [Validators.required, Validators.maxLength(256), noWhitespace()]],
       description: [''],
       severity: ['', Validators.required],
@@ -50,7 +51,12 @@ export class NewTemplateComponent implements OnInit {
     );
     this.templateService.saveTemplate(newTemplate);
     this.isFormPending = false;
+    form.resetForm();
     this.router.navigateByUrl('phaseBugReporting/issues/new');
+  }
+
+  isNameTaken(name: string) {
+    return this.templateService.isNameTaken(name);
   }
 
   canDeactivate() {
