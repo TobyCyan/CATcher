@@ -51,8 +51,8 @@ export class NewTemplateComponent implements OnInit {
     );
     this.templateService.saveTemplate(newTemplate);
     this.isFormPending = false;
-    form.resetForm();
     this.router.navigateByUrl('phaseBugReporting/issues/new');
+    form.resetForm();
   }
 
   isNameTaken(name: string) {
