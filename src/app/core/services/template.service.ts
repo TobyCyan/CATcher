@@ -17,10 +17,10 @@ export class TemplateService {
   }
 
   setTemplate(name: string) {
-    this.templateUsed = this.savedTemplates.find((template) => template.name == name);
+    this.templateUsed = this.savedTemplates.find((template) => template.name === name);
   }
 
   isNameTaken(name: string) {
-    return this.savedTemplates.some((template) => template.name == name);
+    return this.savedTemplates.some((template) => template.name === name);
   }
 }
