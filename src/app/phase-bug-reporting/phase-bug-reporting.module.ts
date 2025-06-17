@@ -13,6 +13,7 @@ import { PhaseBugReportingRoutingModule } from './phase-bug-reporting-routing.mo
 import { PhaseBugReportingComponent } from './phase-bug-reporting.component';
 import { IssuesPostedComponent } from './issues-posted/issues-posted.component';
 import { IssuesDeletedComponent } from './issues-deleted/issues-deleted.component';
+import { TemplateDropdownModule } from '../shared/template-dropdown/template-dropdown.module';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { IssuesDeletedComponent } from './issues-deleted/issues-deleted.componen
     ViewIssueModule,
     MarkdownModule.forChild(),
     IssueTablesModule,
-    LabelDropdownModule
+    LabelDropdownModule,
+    TemplateDropdownModule
   ],
   declarations: [
     PhaseBugReportingComponent,
