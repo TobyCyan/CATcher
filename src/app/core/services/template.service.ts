@@ -13,7 +13,6 @@ export class TemplateService {
   }
 
   saveTemplate(template: Template) {
-    console.log('template saved: ' + JSON.stringify(template));
     this.savedTemplates.push(template);
   }
 

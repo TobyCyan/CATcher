@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { finalize } from 'rxjs/operators';
+import { distinctUntilChanged, finalize } from 'rxjs/operators';
 import { Issue } from '../../core/models/issue.model';
 import { ErrorHandlingService } from '../../core/services/error-handling.service';
 import { IssueService } from '../../core/services/issue.service';
@@ -37,7 +37,8 @@ export class NewIssueComponent implements OnInit {
       type: ['', Validators.required],
       template: ['']
     });
-    this.template.valueChanges.subscribe((templateName) => this.onTemplateChange(templateName));
+
+    this.template.valueChanges.pipe(distinctUntilChanged()).subscribe((templateName) => this.onTemplateChange(templateName));
 
     this.submitButtonText = SUBMIT_BUTTON_TEXT.SUBMIT;
   }
@@ -49,7 +50,8 @@ export class NewIssueComponent implements OnInit {
         title: templateUsed.title,
         description: templateUsed.description,
         severity: templateUsed.severity,
-        type: templateUsed.type
+        type: templateUsed.type,
+        template: templateUsed.name
       });
     }
   }
