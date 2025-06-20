@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 import { Template } from '../../core/models/template.model';
 import { TemplateService } from '../../core/services/template.service';
 import { LabelService } from '../../core/services/label.service';
@@ -14,7 +14,9 @@ export const BLACK_TEXT_CLASS = 'black-text';
 })
 export class TemplateDropdownComponent implements OnInit {
   dropdownControl: AbstractControl;
+  @Input() attributeName: string;
   @Input() initialValue: string;
+  @Input() dropdownForm: FormGroup;
 
   templateList: Template[];
 
@@ -22,9 +24,11 @@ export class TemplateDropdownComponent implements OnInit {
 
   ngOnInit() {
     this.templateList = this.templateService.savedTemplates;
+    this.dropdownControl = this.dropdownForm.get(this.attributeName);
   }
 
-  setSelectedTemplate(templateValue: string) {
-    this.templateService.setTemplate(templateValue);
+  setSelectedTemplate(template: Template) {
+    const templateName = template.name;
+    this.templateService.setTemplate(templateName);
   }
 }

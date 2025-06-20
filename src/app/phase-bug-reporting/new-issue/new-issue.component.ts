@@ -32,7 +32,8 @@ export class NewIssueComponent implements OnInit {
       title: ['', [Validators.required, Validators.maxLength(256), noWhitespace()]],
       description: [''],
       severity: ['', Validators.required],
-      type: ['', Validators.required]
+      type: ['', Validators.required],
+      template: ['']
     });
 
     this.submitButtonText = SUBMIT_BUTTON_TEXT.SUBMIT;
