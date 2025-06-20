@@ -26,9 +26,4 @@ export class TemplateDropdownComponent implements OnInit {
     this.templateList = this.templateService.savedTemplates;
     this.dropdownControl = this.dropdownForm.get(this.attributeName);
   }
-
-  setSelectedTemplate(template: Template) {
-    const templateName = template.name;
-    this.templateService.setTemplate(templateName);
-  }
 }

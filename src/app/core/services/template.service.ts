@@ -13,6 +13,7 @@ export class TemplateService {
   }
 
   saveTemplate(template: Template) {
+    console.log('template saved: ' + JSON.stringify(template));
     this.savedTemplates.push(template);
   }
 
@@ -22,5 +23,9 @@ export class TemplateService {
 
   isNameTaken(name: string) {
     return this.savedTemplates.some((template) => template.name === name);
+  }
+
+  getTemplate(name: string) {
+    return this.savedTemplates.find((template) => template.name === name);
   }
 }

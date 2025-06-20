@@ -8,6 +8,7 @@ import { IssueService } from '../../core/services/issue.service';
 import { LabelService } from '../../core/services/label.service';
 import { noWhitespace } from '../../core/validators/noWhitespace.validator';
 import { SUBMIT_BUTTON_TEXT } from '../../shared/view-issue/view-issue.component';
+import { TemplateService } from '../../core/services/template.service';
 
 @Component({
   selector: 'app-new-issue',
@@ -24,7 +25,8 @@ export class NewIssueComponent implements OnInit {
     private formBuilder: FormBuilder,
     private errorHandlingService: ErrorHandlingService,
     public labelService: LabelService,
-    private router: Router
+    private router: Router,
+    private templateService: TemplateService
   ) {}
 
   ngOnInit() {
@@ -35,8 +37,21 @@ export class NewIssueComponent implements OnInit {
       type: ['', Validators.required],
       template: ['']
     });
+    this.template.valueChanges.subscribe((templateName) => this.onTemplateChange(templateName));
 
     this.submitButtonText = SUBMIT_BUTTON_TEXT.SUBMIT;
+  }
+
+  onTemplateChange(templateName: string) {
+    const templateUsed = this.templateService.getTemplate(templateName);
+    if (templateUsed !== undefined) {
+      this.newIssueForm.patchValue({
+        title: templateUsed.title,
+        description: templateUsed.description,
+        severity: templateUsed.severity,
+        type: templateUsed.type
+      });
+    }
   }
 
   submitNewIssue(form: NgForm) {
@@ -87,5 +102,9 @@ export class NewIssueComponent implements OnInit {
 
   get type() {
     return this.newIssueForm.get('type');
+  }
+
+  get template() {
+    return this.newIssueForm.get('template');
   }
 }

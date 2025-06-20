@@ -1,16 +1,11 @@
 <form [formGroup]="dropdownForm">
   <mat-form-field style="width: 100%">
-    <mat-select
-      formControlName="{{ attributeName }}"
-      placeholder="Template"
-      (selectionChange)="setSelectedTemplate($event.value)"
-      disableOptionCentering
-    >
+    <mat-select formControlName="{{ attributeName }}" placeholder="Template" disableOptionCentering>
       <mat-select-trigger>
         {{ dropdownControl.value.name }}
       </mat-select-trigger>
       <div mat-menu-item class="labelLine" *ngFor="let value of templateList">
-        <mat-option [value]="value" [ngStyle]="{ background: 'transparent' }">
+        <mat-option [value]="value.name" [ngStyle]="{ background: 'transparent' }">
           <span>{{ value.name }}</span>
         </mat-option>
       </div>
