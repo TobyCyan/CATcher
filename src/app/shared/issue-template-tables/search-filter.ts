@@ -1,4 +1,3 @@
-import { IssueTemplateService } from '../../core/services/issue-template.service';
 import { TABLE_COLUMNS } from './issue-template-tables-columns';
 import { IssueTemplate } from '../../core/models/issue-template.model';
 
@@ -7,18 +6,13 @@ import { IssueTemplate } from '../../core/models/issue-template.model';
  * applying search filter to the issue templates data table in this module.
  * This module exports a single function applySearchFilter which is called by IssueTemplateDataTable.
  */
-export function applySearchFilter(
-  filter: string,
-  displayedColumn: string[],
-  issueTemplateService: IssueTemplateService,
-  data: IssueTemplate[]
-): IssueTemplate[] {
+export function applySearchFilter(filter: string, displayedColumn: string[], data: IssueTemplate[]): IssueTemplate[] {
   const searchKey = filter.toLowerCase();
   const result = data.slice().filter((issueTemplate: IssueTemplate) => {
     for (const column of displayedColumn) {
       switch (column) {
-        case TABLE_COLUMNS.TITLE:
-          if (matchesTitle(issueTemplate, searchKey)) {
+        case TABLE_COLUMNS.NAME:
+          if (matchesName(issueTemplate, searchKey)) {
             return true;
           }
           break;
@@ -38,7 +32,7 @@ function containsSearchKey(item: string, searchKey: string): boolean {
   return item.indexOf(searchKey) !== -1;
 }
 
-function matchesTitle(issueTemplate: IssueTemplate, searchKey: string): boolean {
+function matchesName(issueTemplate: IssueTemplate, searchKey: string): boolean {
   const searchStr = issueTemplate.name.toLowerCase();
   return containsSearchKey(searchStr, searchKey);
 }

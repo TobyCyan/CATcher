@@ -50,7 +50,7 @@ export class IssueTemplatesDataTable extends DataSource<IssueTemplate> {
             data = data.filter(this.defaultFilter);
           }
           data = getSortedData(this.sort, data);
-          data = applySearchFilter(this.filter, this.displayedColumn, this.issueTemplateService, data);
+          data = applySearchFilter(this.filter, this.displayedColumn, data);
           data = paginateData(this.paginator, data);
 
           return data;
