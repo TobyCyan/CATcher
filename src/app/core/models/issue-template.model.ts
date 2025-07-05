@@ -1,4 +1,4 @@
-export class Template {
+export class IssueTemplate {
   name: string;
   title: string;
   description: string;

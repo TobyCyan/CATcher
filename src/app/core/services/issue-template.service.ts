@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Template } from '../models/template.model';
+import { IssueTemplate } from '../models/issue-template.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TemplateService {
-  savedTemplates: Template[] = [];
-  templateUsed: Template;
+export class IssueTemplateService {
+  savedTemplates: IssueTemplate[] = [];
+  templateUsed: IssueTemplate;
 
-  createTemplate(name: string, title: string, description: string, severity: string, type: string): Template {
-    return new Template(name, title, description, severity, type);
+  createTemplate(name: string, title: string, description: string, severity: string, type: string): IssueTemplate {
+    return new IssueTemplate(name, title, description, severity, type);
   }
 
-  saveTemplate(template: Template) {
+  saveTemplate(template: IssueTemplate) {
     this.savedTemplates.push(template);
   }
 

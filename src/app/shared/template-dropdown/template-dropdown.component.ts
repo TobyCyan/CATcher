@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
-import { Template } from '../../core/models/template.model';
-import { TemplateService } from '../../core/services/template.service';
+import { IssueTemplate } from '../../core/models/issue-template.model';
+import { IssueTemplateService } from '../../core/services/issue-template.service';
 import { LabelService } from '../../core/services/label.service';
 
 export const WHITE_TEXT_CLASS = 'white-text';
@@ -18,9 +18,9 @@ export class TemplateDropdownComponent implements OnInit {
   @Input() initialValue: string;
   @Input() dropdownForm: FormGroup;
 
-  templateList: Template[];
+  templateList: IssueTemplate[];
 
-  constructor(public templateService: TemplateService, public labelService: LabelService) {}
+  constructor(public templateService: IssueTemplateService, public labelService: LabelService) {}
 
   ngOnInit() {
     this.templateList = this.templateService.savedTemplates;
