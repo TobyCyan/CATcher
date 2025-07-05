@@ -27,7 +27,7 @@ export enum ACTION_BUTTONS {
   styleUrls: ['./issue-template-tables.component.css']
 })
 export class IssueTemplateTablesComponent implements OnInit, AfterViewInit {
-  snackBarAutoCloseTime = 3000;
+  snackBarAutoCloseTime = 5000;
 
   @Input() headers: string[];
   @Input() actions: ACTION_BUTTONS[];
@@ -108,7 +108,7 @@ export class IssueTemplateTablesComponent implements OnInit, AfterViewInit {
 
     this.issueTemplatesPendingDeletion = { ...this.issueTemplatesPendingDeletion, [name]: true };
     try {
-      const removedIssueTemplate = this.issueTemplateService.deleteTemplate(name);
+      this.issueTemplateService.deleteTemplate(name);
       this.handleIssueTemplateDeletionSuccess(name, event, actionUndoable);
     } catch (error) {
       this.errorHandlingService.handleError(error);
@@ -138,7 +138,7 @@ export class IssueTemplateTablesComponent implements OnInit, AfterViewInit {
 
     this.issueTemplatesPendingRestore = { ...this.issueTemplatesPendingRestore, [name]: true };
     try {
-      const restoredIssueTemplate = this.issueTemplateService.undeleteTemplate(name);
+      this.issueTemplateService.undeleteTemplate(name);
       this.handleIssueTemplateRestorationSuccess(name, event, actionUndoable);
     } catch (error) {
       this.errorHandlingService.handleError(error);
