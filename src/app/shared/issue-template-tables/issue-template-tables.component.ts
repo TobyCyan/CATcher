@@ -2,8 +2,7 @@ import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/cor
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort, Sort } from '@angular/material/sort';
-import { finalize } from 'rxjs/operators';
-import { Issue, STATUS } from '../../core/models/issue.model';
+import { Issue } from '../../core/models/issue.model';
 import { TableSettings } from '../../core/models/table-settings.model';
 import { ErrorHandlingService } from '../../core/services/error-handling.service';
 import { GithubService } from '../../core/services/github.service';
@@ -11,20 +10,15 @@ import { IssueTableSettingsService } from '../../core/services/issue-table-setti
 import { LabelService } from '../../core/services/label.service';
 import { LoggingService } from '../../core/services/logging.service';
 import { PermissionService } from '../../core/services/permission.service';
-import { PhaseService } from '../../core/services/phase.service';
 import { UserService } from '../../core/services/user.service';
 import { UndoActionComponent } from '../../shared/action-toasters/undo-action/undo-action.component';
 import { IssueTemplatesDataTable } from './IssueTemplatesDataTable';
 import { IssueTemplateService } from '../../core/services/issue-template.service';
 
 export enum ACTION_BUTTONS {
-  VIEW_IN_WEB,
-  MARK_AS_RESPONDED,
-  MARK_AS_PENDING,
-  RESPOND_TO_ISSUE,
-  FIX_ISSUE,
-  DELETE_ISSUE,
-  RESTORE_ISSUE
+  DELETE_ISSUE_TEMPLATE,
+  RESTORE_ISSUE_TEMPLATE,
+  FIX_ISSUE_TEMPLATE
 }
 
 @Component({
@@ -55,10 +49,8 @@ export class IssueTemplateTablesComponent implements OnInit, AfterViewInit {
     public userService: UserService,
     public permissions: PermissionService,
     public labelService: LabelService,
-    private githubService: GithubService,
     public issueTemplateService: IssueTemplateService,
     public issueTableSettingsService: IssueTableSettingsService,
-    private phaseService: PhaseService,
     private errorHandlingService: ErrorHandlingService,
     private logger: LoggingService,
     private snackBar: MatSnackBar = null
@@ -107,25 +99,6 @@ export class IssueTemplateTablesComponent implements OnInit, AfterViewInit {
 
   logIssueEditRouting(id: number) {
     this.logger.info(`IssueTablesComponent: Proceeding to Edit Issue ${id}`);
-  }
-
-  /**
-   * Gets the number of resolved disputes.
-   */
-  todoFinished(issue: Issue): number {
-    return issue.issueDisputes.length - issue.numOfUnresolvedDisputes();
-  }
-
-  /**
-   * Checks if all the disputes are resolved.
-   */
-  isTodoListChecked(issue: Issue): boolean {
-    return issue.issueDisputes && issue.numOfUnresolvedDisputes() === 0;
-  }
-
-  viewIssueInBrowser(id: number, event: Event) {
-    this.logger.info(`IssueTablesComponent: Opening Issue ${id} on Github`);
-    this.githubService.viewIssueInBrowser(id, event);
   }
 
   private handleIssueTemplateDeletionSuccess(name: string, event: Event, actionUndoable: boolean) {

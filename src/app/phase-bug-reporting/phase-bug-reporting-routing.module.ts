@@ -22,7 +22,7 @@ const routes: Routes = [
     canDeactivate: [CanDeactivateIssueGuard]
   },
   {
-    path: 'phaseBugReporting/issues/template/new',
+    path: 'phaseBugReporting/templates/new',
     component: NewIssueTemplateComponent,
     canActivate: [AuthGuard],
     canDeactivate: [CanDeactivateIssueGuard]

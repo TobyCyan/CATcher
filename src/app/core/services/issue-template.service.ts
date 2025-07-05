@@ -7,7 +7,6 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class IssueTemplateService {
   savedTemplates: IssueTemplate[] = [];
-  savedTemplates$: BehaviorSubject<IssueTemplate[]>;
   templateUsed: IssueTemplate;
 
   createTemplate(name: string, title: string, description: string, severity: string, type: string): IssueTemplate {

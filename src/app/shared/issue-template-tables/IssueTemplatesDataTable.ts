@@ -3,8 +3,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { BehaviorSubject, merge, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Issue } from '../../core/models/issue.model';
-import { IssueService } from '../../core/services/issue.service';
 import { paginateData } from './issue-template-paginator';
 import { getSortedData } from './issue-template-sorter';
 import { applySearchFilter } from './search-filter';
@@ -13,7 +11,6 @@ import { IssueTemplateService } from '../../core/services/issue-template.service
 
 export class IssueTemplatesDataTable extends DataSource<IssueTemplate> {
   private filterChange = new BehaviorSubject('');
-  private teamFilterChange = new BehaviorSubject('');
   private issuesSubject = new BehaviorSubject<IssueTemplate[]>([]);
   private issueTemplateSubscription: Subscription;
 
@@ -39,23 +36,16 @@ export class IssueTemplatesDataTable extends DataSource<IssueTemplate> {
 
   disconnect() {
     this.filterChange.complete();
-    this.teamFilterChange.complete();
     this.issuesSubject.complete();
   }
 
   loadTemplates() {
-    const displayDataChanges = [
-      this.issueTemplateService.savedTemplates$,
-      this.paginator.page,
-      this.sort.sortChange,
-      this.filterChange,
-      this.teamFilterChange
-    ];
+    const displayDataChanges = [this.issueTemplateService.savedTemplates, this.paginator.page, this.sort.sortChange, this.filterChange];
 
     this.issueTemplateSubscription = merge(...displayDataChanges)
       .pipe(
         map(() => {
-          let data = <IssueTemplate[]>Object.values(this.issueTemplateService.savedTemplates$.getValue()).reverse();
+          let data = <IssueTemplate[]>Object.values(this.issueTemplateService.savedTemplates).reverse();
           if (this.defaultFilter) {
             data = data.filter(this.defaultFilter);
           }

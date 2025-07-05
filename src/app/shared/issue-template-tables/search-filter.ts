@@ -1,5 +1,5 @@
 import { IssueTemplateService } from '../../core/services/issue-template.service';
-import { TABLE_COLUMNS } from './issue-tables-columns';
+import { TABLE_COLUMNS } from './issue-template-tables-columns';
 import { IssueTemplate } from '../../core/models/issue-template.model';
 
 /**
