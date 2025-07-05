@@ -51,7 +51,7 @@ export class NewIssueTemplateComponent implements OnInit {
     );
     this.issueTemplateService.saveTemplate(newTemplate);
     this.isFormPending = false;
-    this.router.navigateByUrl('phaseBugReporting/issues/new');
+    this.router.navigateByUrl('phaseBugReporting/');
     form.resetForm();
   }
 

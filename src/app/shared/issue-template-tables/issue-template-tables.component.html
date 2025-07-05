@@ -1,5 +1,5 @@
 <mat-table
-  [dataSource]="this.issues"
+  [dataSource]="this.issueTemplates"
   matSort
   [matSortActive]="this.tableSettings.sortActiveId"
   [matSortDirection]="this.tableSettings.sortDirection"
@@ -22,37 +22,21 @@
         IMPORTANT: The filter logic relies on the structure of this DOM element.
         If you modify the structure, make sure to update the filter logic in the component to match the new structure.
       -->
-      <a class="no-underline link-grey-dark title-wrap" [routerLink]="'issues/' + issue.id"> {{ template.name }} </a>
+      <a class="no-underline link-grey-dark title-wrap"> {{ template.name }} </a>
     </mat-cell>
   </ng-container>
 
   <!-- Type Column -->
   <ng-container matColumnDef="type">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
-    <mat-cell *matCellDef="let issue">
+    <mat-cell *matCellDef="let template">
       <span
         (click)="$event.stopPropagation()"
-        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('type', issue.type))"
-        [matTooltip]="this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(issue.type, 'type'))"
+        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('type', template.type))"
+        [matTooltip]="this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(template.type, 'type'))"
         matTooltipClass="labelTooltip"
       >
-        {{ issue.type || '-' }}
-      </span>
-      <span
-        *ngIf="issue.teamChosenType && issue.teamChosenType != issue.type"
-        (click)="$event.stopPropagation()"
-        style="display: inline; padding: 1px 2px"
-      >
-        <mat-icon class="arrow-right">arrow_right_alt</mat-icon>
-      </span>
-      <span
-        *ngIf="issue.teamChosenType && issue.teamChosenType != issue.type"
-        (click)="$event.stopPropagation()"
-        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('type', issue.teamChosenType))"
-        [matTooltip]="this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(issue.teamChosenType, 'type'))"
-        matTooltipClass="labelTooltip"
-      >
-        {{ issue.teamChosenType }}
+        {{ template.type || '-' }}
       </span>
     </mat-cell>
   </ng-container>
@@ -60,28 +44,14 @@
   <!-- Severity Column -->
   <ng-container matColumnDef="severity">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Severity </mat-header-cell>
-    <mat-cell *matCellDef="let issue">
+    <mat-cell *matCellDef="let template">
       <span
         (click)="$event.stopPropagation()"
-        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('severity', issue.severity))"
-        [matTooltip]="this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(issue.severity, 'severity'))"
+        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('severity', template.severity))"
+        [matTooltip]="this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(template.severity, 'severity'))"
         matTooltipClass="labelTooltip"
       >
-        {{ issue.severity || '-' }}
-      </span>
-      <span
-        *ngIf="issue.teamChosenSeverity && issue.teamChosenSeverity != issue.severity"
-        (click)="$event.stopPropagation()"
-        style="display: inline; margin: 3px"
-      >
-        <mat-icon class="arrow-right">arrow_right_alt</mat-icon>
-      </span>
-      <span
-        *ngIf="issue.teamChosenSeverity && issue.teamChosenSeverity != issue.severity"
-        (click)="$event.stopPropagation()"
-        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('severity', issue.teamChosenSeverity))"
-      >
-        {{ issue.teamChosenSeverity }}
+        {{ template.severity || '-' }}
       </span>
     </mat-cell>
   </ng-container>
@@ -89,26 +59,22 @@
   <!-- Action Buttons Column -->
   <ng-container matColumnDef="actions">
     <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
-    <mat-cell *matCellDef="let issue">
-      <ng-template #tryEditIssue>
-        <button
-          *ngIf="permissions.isIssueEditable() && this.isActionVisible(action_buttons.FIX_ISSUE)"
-          mat-button
-          color="accent"
-          style="transform: scale(0.8)"
-          matTooltip="Edit this issue"
-          data-testid="edit_issue_button"
-        >
-          <mat-icon>edit</mat-icon>
-        </button>
-      </ng-template>
+    <mat-cell *matCellDef="let template">
+      <button
+        *ngIf="this.isActionVisible(action_buttons.FIX_ISSUE_TEMPLATE)"
+        mat-button
+        color="accent"
+        style="transform: scale(0.8)"
+        matTooltip="Edit this issue"
+        data-testid="edit_issue_button"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
       <button
         mat-button
         color="warn"
-        *ngIf="
-          permissions.isIssueDeletable() && !issuesPendingDeletion[issue.id] && this.isActionVisible(action_buttons.DELETE_ISSUE_TEMPLATE)
-        "
-        (click)="deleteIssue(issue.id, $event); $event.stopPropagation()"
+        *ngIf="!issueTemplatesPendingDeletion[template.name] && this.isActionVisible(action_buttons.DELETE_ISSUE_TEMPLATE)"
+        (click)="deleteIssue(template.name, $event); $event.stopPropagation()"
         matTooltip="Delete this template"
         style="transform: scale(0.8)"
         data-testid="delete_issue_button"
@@ -119,12 +85,7 @@
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="this.headers"></mat-header-row>>
-  <mat-row
-    *matRowDef="let issue; columns: this.headers"
-    (click)="this.logIssueEditRouting(issue.id)"
-    [routerLink]="'issues/' + issue.id"
-    style="cursor: pointer"
-  ></mat-row>
+  <mat-row *matRowDef="let template; columns: this.headers" style="cursor: pointer"></mat-row>
 </mat-table>
 <br />
 <mat-paginator
