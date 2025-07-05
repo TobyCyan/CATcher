@@ -89,18 +89,6 @@ export class IssueTemplateTablesComponent implements OnInit, AfterViewInit {
     return this.actions.includes(action);
   }
 
-  isResponseEditable() {
-    return this.permissions.isTeamResponseEditable() || this.permissions.isTesterResponseEditable();
-  }
-
-  logIssueRespondRouting(id: number) {
-    this.logger.info(`IssueTablesComponent: Proceeding to Respond to Issue ${id}`);
-  }
-
-  logIssueEditRouting(id: number) {
-    this.logger.info(`IssueTablesComponent: Proceeding to Edit Issue ${id}`);
-  }
-
   private handleIssueTemplateDeletionSuccess(name: string, event: Event, actionUndoable: boolean) {
     if (!actionUndoable) {
       return;
@@ -111,11 +99,11 @@ export class IssueTemplateTablesComponent implements OnInit, AfterViewInit {
       duration: this.snackBarAutoCloseTime
     });
     snackBarRef.onAction().subscribe(() => {
-      this.undeleteIssue(name, event, false);
+      this.undeleteIssueTemplate(name, event, false);
     });
   }
 
-  deleteIssue(name: string, event: Event, actionUndoable: boolean = true) {
+  deleteIssueTemplate(name: string, event: Event, actionUndoable: boolean = true) {
     this.logger.info(`IssueTemplateTablesComponent: Deleting Template ${name}`);
 
     this.issueTemplatesPendingDeletion = { ...this.issueTemplatesPendingDeletion, [name]: true };
@@ -141,11 +129,11 @@ export class IssueTemplateTablesComponent implements OnInit, AfterViewInit {
       duration: this.snackBarAutoCloseTime
     });
     snackBarRef.onAction().subscribe(() => {
-      this.deleteIssue(name, event, false);
+      this.deleteIssueTemplate(name, event, false);
     });
   }
 
-  undeleteIssue(name: string, event: Event, actionUndoable: boolean = true) {
+  undeleteIssueTemplate(name: string, event: Event, actionUndoable: boolean = true) {
     this.logger.info(`IssueTemplateTablesComponent: Undeleting Issue Template ${name}`);
 
     this.issueTemplatesPendingRestore = { ...this.issueTemplatesPendingRestore, [name]: true };

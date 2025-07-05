@@ -11,7 +11,7 @@ import { IssueTemplateService } from '../../core/services/issue-template.service
 
 export class IssueTemplatesDataTable extends DataSource<IssueTemplate> {
   private filterChange = new BehaviorSubject('');
-  private issuesSubject = new BehaviorSubject<IssueTemplate[]>([]);
+  private issueTemplatesSubject = new BehaviorSubject<IssueTemplate[]>([]);
   private issueTemplateSubscription: Subscription;
 
   constructor(
@@ -31,21 +31,21 @@ export class IssueTemplatesDataTable extends DataSource<IssueTemplate> {
   }
 
   connect(): Observable<IssueTemplate[]> {
-    return this.issuesSubject.asObservable();
+    return this.issueTemplatesSubject.asObservable();
   }
 
   disconnect() {
     this.filterChange.complete();
-    this.issuesSubject.complete();
+    this.issueTemplatesSubject.complete();
   }
 
   loadTemplates() {
-    const displayDataChanges = [this.issueTemplateService.savedTemplates, this.paginator.page, this.sort.sortChange, this.filterChange];
+    const displayDataChanges = [this.issueTemplateService.savedTemplates$, this.paginator.page, this.sort.sortChange, this.filterChange];
 
     this.issueTemplateSubscription = merge(...displayDataChanges)
       .pipe(
         map(() => {
-          let data = <IssueTemplate[]>Object.values(this.issueTemplateService.savedTemplates).reverse();
+          let data = <IssueTemplate[]>Object.values(this.issueTemplateService.savedTemplates$.getValue()).reverse();
           if (this.defaultFilter) {
             data = data.filter(this.defaultFilter);
           }
@@ -56,8 +56,8 @@ export class IssueTemplatesDataTable extends DataSource<IssueTemplate> {
           return data;
         })
       )
-      .subscribe((issues) => {
-        this.issuesSubject.next(issues);
+      .subscribe((issueTemplates) => {
+        this.issueTemplatesSubject.next(issueTemplates);
       });
   }
 

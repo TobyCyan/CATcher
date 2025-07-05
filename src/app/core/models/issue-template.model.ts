@@ -13,3 +13,7 @@ export class IssueTemplate {
     this.type = type;
   }
 }
+
+export interface IssueTemplates {
+  [name: string]: IssueTemplate;
+}

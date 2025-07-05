@@ -1,37 +1,58 @@
 import { Injectable } from '@angular/core';
-import { IssueTemplate } from '../models/issue-template.model';
+import { IssueTemplate, IssueTemplates } from '../models/issue-template.model';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IssueTemplateService {
-  savedTemplates: IssueTemplate[] = [];
+  savedTemplates: IssueTemplates;
+  savedTemplates$: BehaviorSubject<IssueTemplate[]>;
   templateUsed: IssueTemplate;
+
+  constructor() {
+    this.savedTemplates$ = new BehaviorSubject(new Array<IssueTemplate>());
+  }
 
   createTemplate(name: string, title: string, description: string, severity: string, type: string): IssueTemplate {
     return new IssueTemplate(name, title, description, severity, type);
   }
 
-  saveTemplate(template: IssueTemplate) {
-    this.savedTemplates.push(template);
-  }
-
   deleteTemplate(name: string) {
-    this.savedTemplates = this.savedTemplates.filter((template) => template.name !== template.name);
+    const deletedTemplate = this.getTemplate(name);
+    this.updateLocalStore(deletedTemplate);
   }
 
-  undeleteTemplate(name: string) {}
+  undeleteTemplate(name: string) {
+    const undeletedTemplate = this.getTemplate(name);
+    this.updateLocalStore(undeletedTemplate);
+  }
+
+  /**
+   * This function will update the issue template's state of the application.
+   * This function needs to be called whenever a issue template is added/updated.
+   */
+  updateLocalStore(templateToUpdate: IssueTemplate) {
+    this.savedTemplates = {
+      ...this.savedTemplates,
+      [templateToUpdate.name]: templateToUpdate
+    };
+    this.savedTemplates$.next(Object.values(this.savedTemplates));
+  }
 
   setTemplate(name: string) {
-    this.templateUsed = this.savedTemplates.find((template) => template.name === name);
+    this.templateUsed = this.getTemplate(name);
   }
 
   isNameTaken(name: string) {
-    return this.savedTemplates.some((template) => template.name === name);
+    return this.getTemplates().some((template) => template.name === name);
   }
 
   getTemplate(name: string) {
-    return this.savedTemplates.find((template) => template.name === name);
+    return this.savedTemplates[name];
+  }
+
+  getTemplates() {
+    return <IssueTemplate[]>Object.values(this.savedTemplates$.getValue());
   }
 }

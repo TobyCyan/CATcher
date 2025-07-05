@@ -8,7 +8,7 @@ import { IssueTemplateService } from '../../core/services/issue-template.service
 import { nameNotTaken } from '../../core/validators/nameNotTaken.validator';
 
 @Component({
-  selector: 'app-new-template',
+  selector: 'app-new-issue-template',
   templateUrl: './new-issue-template.component.html',
   styleUrls: ['./new-issue-template.component.css']
 })
@@ -49,7 +49,7 @@ export class NewIssueTemplateComponent implements OnInit {
       this.severity.value,
       this.type.value
     );
-    this.issueTemplateService.saveTemplate(newTemplate);
+    this.issueTemplateService.updateLocalStore(newTemplate);
     this.isFormPending = false;
     this.router.navigateByUrl('phaseBugReporting/');
     form.resetForm();

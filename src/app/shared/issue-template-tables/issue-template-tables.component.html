@@ -74,7 +74,7 @@
         mat-button
         color="warn"
         *ngIf="!issueTemplatesPendingDeletion[template.name] && this.isActionVisible(action_buttons.DELETE_ISSUE_TEMPLATE)"
-        (click)="deleteIssue(template.name, $event); $event.stopPropagation()"
+        (click)="deleteIssueTemplate(template.name, $event); $event.stopPropagation()"
         matTooltip="Delete this template"
         style="transform: scale(0.8)"
         data-testid="delete_issue_button"
