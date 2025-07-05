@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { IssueTemplate } from '../models/issue-template.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IssueTemplateService {
   savedTemplates: IssueTemplate[] = [];
+  savedTemplates$: BehaviorSubject<IssueTemplate[]>;
   templateUsed: IssueTemplate;
 
   createTemplate(name: string, title: string, description: string, severity: string, type: string): IssueTemplate {
@@ -15,6 +17,12 @@ export class IssueTemplateService {
   saveTemplate(template: IssueTemplate) {
     this.savedTemplates.push(template);
   }
+
+  deleteTemplate(name: string) {
+    this.savedTemplates = this.savedTemplates.filter((template) => template.name !== template.name);
+  }
+
+  undeleteTemplate(name: string) {}
 
   setTemplate(name: string) {
     this.templateUsed = this.savedTemplates.find((template) => template.name === name);

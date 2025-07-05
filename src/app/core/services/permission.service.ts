@@ -19,7 +19,8 @@ const PERMISSIONS = {
       isIssueLabelsEditable: true,
       isTeamResponseEditable: false,
       isTesterResponseEditable: false,
-      isTutorResponseEditable: false
+      isTutorResponseEditable: false,
+      isTemplateCreatable: true
     },
     [UserRole.Tutor]: {
       isIssueCreatable: false,
@@ -29,7 +30,8 @@ const PERMISSIONS = {
       isIssueLabelsEditable: false,
       isTeamResponseEditable: false,
       isTesterResponseEditable: false,
-      isTutorResponseEditable: false
+      isTutorResponseEditable: false,
+      isTemplateCreatable: false
     },
     [UserRole.Admin]: {
       isIssueCreatable: true,
@@ -39,7 +41,8 @@ const PERMISSIONS = {
       isIssueLabelsEditable: true,
       isTeamResponseEditable: false,
       isTesterResponseEditable: false,
-      isTutorResponseEditable: false
+      isTutorResponseEditable: false,
+      isTemplateCreatable: true
     }
   },
   [Phase.phaseBugTrimming]: {
@@ -51,7 +54,8 @@ const PERMISSIONS = {
       isIssueLabelsEditable: true,
       isTeamResponseEditable: false,
       isTesterResponseEditable: false,
-      isTutorResponseEditable: false
+      isTutorResponseEditable: false,
+      isTemplateCreatable: false
     },
     [UserRole.Tutor]: {
       isIssueCreatable: false,
@@ -61,7 +65,8 @@ const PERMISSIONS = {
       isIssueLabelsEditable: false,
       isTeamResponseEditable: false,
       isTesterResponseEditable: false,
-      isTutorResponseEditable: false
+      isTutorResponseEditable: false,
+      isTemplateCreatable: false
     },
     [UserRole.Admin]: {
       isIssueCreatable: true,
@@ -71,7 +76,8 @@ const PERMISSIONS = {
       isIssueLabelsEditable: true,
       isTeamResponseEditable: false,
       isTesterResponseEditable: false,
-      isTutorResponseEditable: false
+      isTutorResponseEditable: false,
+      isTemplateCreatable: true
     }
   },
   [Phase.phaseTeamResponse]: {
@@ -83,7 +89,8 @@ const PERMISSIONS = {
       isIssueLabelsEditable: true,
       isTeamResponseEditable: true,
       isTesterResponseEditable: false,
-      isTutorResponseEditable: false
+      isTutorResponseEditable: false,
+      isTemplateCreatable: false
     },
     [UserRole.Tutor]: {
       isIssueCreatable: false,
@@ -93,7 +100,8 @@ const PERMISSIONS = {
       isIssueLabelsEditable: false,
       isTeamResponseEditable: false,
       isTesterResponseEditable: false,
-      isTutorResponseEditable: false
+      isTutorResponseEditable: false,
+      isTemplateCreatable: false
     },
     [UserRole.Admin]: {
       isIssueCreatable: false,
@@ -103,7 +111,8 @@ const PERMISSIONS = {
       isIssueLabelsEditable: true,
       isTeamResponseEditable: true,
       isTesterResponseEditable: false,
-      isTutorResponseEditable: false
+      isTutorResponseEditable: false,
+      isTemplateCreatable: false
     }
   },
 
@@ -116,7 +125,8 @@ const PERMISSIONS = {
       isIssueLabelsEditable: false,
       isTeamResponseEditable: false,
       isTesterResponseEditable: true,
-      isTutorResponseEditable: false
+      isTutorResponseEditable: false,
+      isTemplateCreatable: false
     },
     [UserRole.Tutor]: {
       isIssueCreatable: false,
@@ -126,7 +136,8 @@ const PERMISSIONS = {
       isIssueLabelsEditable: false,
       isTeamResponseEditable: false,
       isTesterResponseEditable: false,
-      isTutorResponseEditable: false
+      isTutorResponseEditable: false,
+      isTemplateCreatable: false
     },
     [UserRole.Admin]: {
       isIssueCreatable: false,
@@ -136,7 +147,8 @@ const PERMISSIONS = {
       isIssueLabelsEditable: true,
       isTeamResponseEditable: true,
       isTesterResponseEditable: true,
-      isTutorResponseEditable: false
+      isTutorResponseEditable: false,
+      isTemplateCreatable: false
     }
   },
 
@@ -150,7 +162,8 @@ const PERMISSIONS = {
       isIssueLabelsEditable: false,
       isTeamResponseEditable: false,
       isTesterResponseEditable: false,
-      isTutorResponseEditable: false
+      isTutorResponseEditable: false,
+      isTemplateCreatable: false
     },
     [UserRole.Tutor]: {
       isIssueCreatable: false,
@@ -160,7 +173,8 @@ const PERMISSIONS = {
       isIssueLabelsEditable: true,
       isTeamResponseEditable: false,
       isTesterResponseEditable: false,
-      isTutorResponseEditable: true
+      isTutorResponseEditable: true,
+      isTemplateCreatable: false
     },
     [UserRole.Admin]: {
       isIssueCreatable: false,
@@ -170,7 +184,8 @@ const PERMISSIONS = {
       isIssueLabelsEditable: true,
       isTeamResponseEditable: false,
       isTesterResponseEditable: false,
-      isTutorResponseEditable: true
+      isTutorResponseEditable: true,
+      isTemplateCreatable: false
     }
   }
 };
@@ -216,6 +231,10 @@ export class PermissionService {
 
   isTutorResponseEditable(): boolean {
     return this.askForPermission(PermissionLevel.User, 'isTutorResponseEditable');
+  }
+
+  isTemplateCreatable(): boolean {
+    return this.askForPermission(PermissionLevel.User, 'isTemplateCreatable');
   }
 
   isIssueEditable(): boolean {

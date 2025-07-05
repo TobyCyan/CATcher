@@ -1,0 +1,151 @@
+<mat-table
+  [dataSource]="this.issues"
+  matSort
+  [matSortActive]="this.tableSettings.sortActiveId"
+  [matSortDirection]="this.tableSettings.sortDirection"
+  (matSortChange)="this.sortChange($event)"
+  class="mat-elevation-z8"
+>
+  <!-- No. Column -->
+  <ng-container matColumnDef="no">
+    <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+    <mat-cell *matCellDef="let template; let i = index">
+      <span (click)="$event.stopPropagation()" style="cursor: default">{{ globalTableIndex(i) + 1 }}</span>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Title Column -->
+  <ng-container matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
+    <mat-cell *matCellDef="let template">
+      <!--
+        IMPORTANT: The filter logic relies on the structure of this DOM element.
+        If you modify the structure, make sure to update the filter logic in the component to match the new structure.
+      -->
+      <a class="no-underline link-grey-dark title-wrap" [routerLink]="'issues/' + issue.id"> {{ template.name }} </a>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Type Column -->
+  <ng-container matColumnDef="type">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
+    <mat-cell *matCellDef="let issue">
+      <span
+        (click)="$event.stopPropagation()"
+        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('type', issue.type))"
+        [matTooltip]="this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(issue.type, 'type'))"
+        matTooltipClass="labelTooltip"
+      >
+        {{ issue.type || '-' }}
+      </span>
+      <span
+        *ngIf="issue.teamChosenType && issue.teamChosenType != issue.type"
+        (click)="$event.stopPropagation()"
+        style="display: inline; padding: 1px 2px"
+      >
+        <mat-icon class="arrow-right">arrow_right_alt</mat-icon>
+      </span>
+      <span
+        *ngIf="issue.teamChosenType && issue.teamChosenType != issue.type"
+        (click)="$event.stopPropagation()"
+        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('type', issue.teamChosenType))"
+        [matTooltip]="this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(issue.teamChosenType, 'type'))"
+        matTooltipClass="labelTooltip"
+      >
+        {{ issue.teamChosenType }}
+      </span>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Severity Column -->
+  <ng-container matColumnDef="severity">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Severity </mat-header-cell>
+    <mat-cell *matCellDef="let issue">
+      <span
+        (click)="$event.stopPropagation()"
+        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('severity', issue.severity))"
+        [matTooltip]="this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(issue.severity, 'severity'))"
+        matTooltipClass="labelTooltip"
+      >
+        {{ issue.severity || '-' }}
+      </span>
+      <span
+        *ngIf="issue.teamChosenSeverity && issue.teamChosenSeverity != issue.severity"
+        (click)="$event.stopPropagation()"
+        style="display: inline; margin: 3px"
+      >
+        <mat-icon class="arrow-right">arrow_right_alt</mat-icon>
+      </span>
+      <span
+        *ngIf="issue.teamChosenSeverity && issue.teamChosenSeverity != issue.severity"
+        (click)="$event.stopPropagation()"
+        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('severity', issue.teamChosenSeverity))"
+      >
+        {{ issue.teamChosenSeverity }}
+      </span>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Action Buttons Column -->
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+    <mat-cell *matCellDef="let issue">
+      <ng-template #tryEditIssue>
+        <button
+          *ngIf="permissions.isIssueEditable() && this.isActionVisible(action_buttons.FIX_ISSUE)"
+          mat-button
+          color="accent"
+          style="transform: scale(0.8)"
+          matTooltip="Edit this issue"
+          data-testid="edit_issue_button"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+      </ng-template>
+      <button
+        color="primary"
+        matTooltip="Mark this issue as Pending"
+        mat-button
+        (click)="markAsPending(issue, $event)"
+        style="transform: scale(0.8)"
+        *ngIf="
+          (userService.currentUser.role === 'Student' || userService.currentUser.role === 'Admin') &&
+          this.isActionVisible(action_buttons.MARK_AS_PENDING)
+        "
+        data-testid="mark_pending_button"
+      >
+        <mat-icon>cancel</mat-icon>
+      </button>
+      <button
+        mat-button
+        color="warn"
+        *ngIf="permissions.isIssueDeletable() && !issuesPendingDeletion[issue.id] && this.isActionVisible(action_buttons.DELETE_ISSUE)"
+        (click)="deleteIssue(issue.id, $event); $event.stopPropagation()"
+        matTooltip="Delete this template"
+        style="transform: scale(0.8)"
+        data-testid="delete_issue_button"
+      >
+        <mat-icon>delete_outline</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="this.headers"></mat-header-row>>
+  <mat-row
+    *matRowDef="let issue; columns: this.headers"
+    (click)="this.logIssueEditRouting(issue.id)"
+    [routerLink]="'issues/' + issue.id"
+    style="cursor: pointer"
+  ></mat-row>
+</mat-table>
+<mat-card *ngIf="this.issues.isLoading$ | async" style="display: flex; justify-content: center; align-items: center">
+  <mat-progress-spinner color="primary" mode="indeterminate" diameter="50" strokeWidth="5"></mat-progress-spinner>
+</mat-card>
+<br />
+<mat-paginator
+  [paginatorLocalStorage]="this.table_name"
+  [pageSize]="this.tableSettings.pageSize"
+  [pageSizeOptions]="[10, 20, 50]"
+  [pageIndex]="this.tableSettings.pageIndex"
+  (page)="this.pageChange($event)"
+></mat-paginator>
