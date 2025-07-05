@@ -8,12 +8,12 @@ import { SharedModule } from '../shared/shared.module';
 import { ViewIssueModule } from '../shared/view-issue/view-issue.module';
 import { IssueComponent } from './issue/issue.component';
 import { NewIssueComponent } from './new-issue/new-issue.component';
-import { NewTemplateComponent } from './new-issue-template/new-issue-template.component';
+import { NewIssueTemplateComponent } from './new-issue-template/new-issue-template.component';
 import { PhaseBugReportingRoutingModule } from './phase-bug-reporting-routing.module';
 import { PhaseBugReportingComponent } from './phase-bug-reporting.component';
 import { IssuesPostedComponent } from './issues-posted/issues-posted.component';
 import { IssuesDeletedComponent } from './issues-deleted/issues-deleted.component';
-import { TemplateDropdownModule } from '../shared/template-dropdown/template-dropdown.module';
+import { TemplateDropdownModule } from '../shared/issue-template-dropdown/issue-template-dropdown.module';
 
 @NgModule({
   imports: [
@@ -30,7 +30,7 @@ import { TemplateDropdownModule } from '../shared/template-dropdown/template-dro
   declarations: [
     PhaseBugReportingComponent,
     NewIssueComponent,
-    NewTemplateComponent,
+    NewIssueTemplateComponent,
     IssueComponent,
     IssuesPostedComponent,
     IssuesDeletedComponent

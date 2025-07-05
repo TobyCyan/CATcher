@@ -8,11 +8,11 @@ export const WHITE_TEXT_CLASS = 'white-text';
 export const BLACK_TEXT_CLASS = 'black-text';
 
 @Component({
-  selector: 'app-template-dropdown',
-  templateUrl: './template-dropdown.component.html',
-  styleUrls: ['./template-dropdown.component.css']
+  selector: 'app-issue-template-dropdown',
+  templateUrl: './issue-template-dropdown.component.html',
+  styleUrls: ['./issue-template-dropdown.component.css']
 })
-export class TemplateDropdownComponent implements OnInit {
+export class IssueTemplateDropdownComponent implements OnInit {
   dropdownControl: AbstractControl;
   @Input() attributeName: string;
   @Input() initialValue: string;

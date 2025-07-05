@@ -12,7 +12,7 @@ import { nameNotTaken } from '../../core/validators/nameNotTaken.validator';
   templateUrl: './new-issue-template.component.html',
   styleUrls: ['./new-issue-template.component.css']
 })
-export class NewTemplateComponent implements OnInit {
+export class NewIssueTemplateComponent implements OnInit {
   newTemplateForm: FormGroup;
   isFormPending = false;
   submitButtonText: string;

@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared.module';
-import { TemplateDropdownComponent } from './template-dropdown.component';
+import { IssueTemplateDropdownComponent } from './issue-template-dropdown.component';
 
 @NgModule({
-  declarations: [TemplateDropdownComponent],
+  declarations: [IssueTemplateDropdownComponent],
   imports: [CommonModule, SharedModule],
-  exports: [TemplateDropdownComponent]
+  exports: [IssueTemplateDropdownComponent]
 })
 export class TemplateDropdownModule {}
