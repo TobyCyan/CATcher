@@ -26,7 +26,7 @@ export class IssueTemplatesCreatedComponent implements OnInit {
 
   ngOnInit() {
     this.filter = (issueTemplate: IssueTemplate): boolean => {
-      return true;
+      return issueTemplate.isOpened();
     };
   }
 
