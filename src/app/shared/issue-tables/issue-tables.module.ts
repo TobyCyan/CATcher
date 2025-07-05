@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { PaginatorLocalStorageDirective } from '../../core/directives/paginator-local-storage.directive';
 import { MaterialModule } from '../material.module';
 import { IssueTablesComponent } from './issue-tables.component';
+import { SharedModule } from '../shared.module';
 
 @NgModule({
   exports: [IssueTablesComponent],
-  declarations: [IssueTablesComponent, PaginatorLocalStorageDirective],
-  imports: [CommonModule, MaterialModule, RouterModule]
+  declarations: [IssueTablesComponent],
+  imports: [CommonModule, MaterialModule, RouterModule, SharedModule]
 })
 export class IssueTablesModule {}

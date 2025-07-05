@@ -14,6 +14,8 @@ import { PhaseBugReportingComponent } from './phase-bug-reporting.component';
 import { IssuesPostedComponent } from './issues-posted/issues-posted.component';
 import { IssuesDeletedComponent } from './issues-deleted/issues-deleted.component';
 import { TemplateDropdownModule } from '../shared/issue-template-dropdown/issue-template-dropdown.module';
+import { IssueTemplatesCreatedComponent } from './issue-templates-created/issue-templates-created.component';
+import { IssueTemplateTablesModule } from '../shared/issue-template-tables/issue-template-tables.module';
 
 @NgModule({
   imports: [
@@ -25,7 +27,8 @@ import { TemplateDropdownModule } from '../shared/issue-template-dropdown/issue-
     MarkdownModule.forChild(),
     IssueTablesModule,
     LabelDropdownModule,
-    TemplateDropdownModule
+    TemplateDropdownModule,
+    IssueTemplateTablesModule
   ],
   declarations: [
     PhaseBugReportingComponent,
@@ -33,7 +36,8 @@ import { TemplateDropdownModule } from '../shared/issue-template-dropdown/issue-
     NewIssueTemplateComponent,
     IssueComponent,
     IssuesPostedComponent,
-    IssuesDeletedComponent
+    IssuesDeletedComponent,
+    IssueTemplatesCreatedComponent
   ]
 })
 export class PhaseBugReportingModule {}
