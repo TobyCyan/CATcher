@@ -12,7 +12,8 @@ export class IssueTemplateComponent implements OnInit {
 
   readonly issueTemplateComponents: ISSUE_TEMPLATE_COMPONENTS[] = [
     ISSUE_TEMPLATE_COMPONENTS.SEVERITY_LABEL,
-    ISSUE_TEMPLATE_COMPONENTS.TYPE_LABEL
+    ISSUE_TEMPLATE_COMPONENTS.TYPE_LABEL,
+    ISSUE_TEMPLATE_COMPONENTS.TESTER_POST
   ];
 
   @ViewChild(ViewIssueTemplateComponent, { static: true }) viewIssueTemplate: ViewIssueTemplateComponent;
@@ -26,6 +27,6 @@ export class IssueTemplateComponent implements OnInit {
   }
 
   canDeactivate(): boolean {
-    return !this.viewIssueTemplate.isEditing();
+    return true;
   }
 }

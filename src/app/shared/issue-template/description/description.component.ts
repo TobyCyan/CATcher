@@ -1,15 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { throwError } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
 import { Conflict } from '../../../core/models/conflict/conflict.model';
 import { Issue } from '../../../core/models/issue.model';
 import { DialogService } from '../../../core/services/dialog.service';
 import { ErrorHandlingService } from '../../../core/services/error-handling.service';
 import { LoadingService } from '../../../core/services/loading.service';
 import { PermissionService } from '../../../core/services/permission.service';
-import { PhaseService } from '../../../core/services/phase.service';
 import { SUBMIT_BUTTON_TEXT } from '../../view-issue/view-issue.component';
 import { ConflictDialogComponent } from '../../issue/conflict-dialog/conflict-dialog.component';
 import { IssueTemplateService } from '../../../core/services/issue-template.service';

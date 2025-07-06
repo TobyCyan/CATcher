@@ -3,7 +3,13 @@
     {{ issueTemplate.title }}
   </h1>
   <div class="row">
-    <button *ngIf="permissions.isIssueTitleEditable()" mat-stroked-button color="primary" class="title-button" (click)="changeToEditMode()">
+    <button
+      *ngIf="permissions.isTemplateTitleEditable()"
+      mat-stroked-button
+      color="primary"
+      class="title-button"
+      (click)="changeToEditMode()"
+    >
       Edit
     </button>
     <button

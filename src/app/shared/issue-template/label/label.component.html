@@ -1,17 +1,16 @@
 <span class="mat-title"> {{ this.labelService.getLabelTitle(attributeName) }} </span>
-<button
-  *ngIf="permissions.isIssueLabelsEditable() && !issue.duplicateOf"
-  style="float: right"
-  [matMenuTriggerFor]="labelList"
-  mat-icon-button
->
+<button *ngIf="permissions.isTemplateLabelsEditable()" style="float: right" [matMenuTriggerFor]="labelList" mat-icon-button>
   <mat-icon style="font-size: 20px; margin-bottom: 7px; color: #586069" *ngIf="!isSavePending"> edit </mat-icon>
   <ng-container #loadingSpinnerContainer></ng-container>
 </button>
 
 <mat-menu #labelList>
   <div mat-menu-item class="labelLine" *ngFor="let value of labelValues" [ngStyle]="{ 'padding-left': '15px', 'padding-right': '15px' }">
-    <button class="labelInfo option" (click)="updateLabel(value.labelValue)" [disabled]="value.labelValue === this.issue[attributeName]">
+    <button
+      class="labelInfo option"
+      (click)="updateLabel(value.labelValue)"
+      [disabled]="value.labelValue === this.issueTemplate[attributeName]"
+    >
       <mat-icon [ngStyle]="{ color: '#' + value.labelColor, 'font-size': '1.8em' }">stop</mat-icon>
       <span> {{ value.labelValue }}</span>
     </button>
@@ -23,8 +22,10 @@
 
 <p
   [ngStyle]="this.labelService.setLabelStyle(this.labelColor)"
-  [matTooltip]="this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(issue[attributeName], attributeName))"
+  [matTooltip]="
+    this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(issueTemplate[attributeName], attributeName))
+  "
   matTooltipClass="labelTooltip"
 >
-  {{ issue[attributeName] || '-' }}
+  {{ issueTemplate[attributeName] || '-' }}
 </p>

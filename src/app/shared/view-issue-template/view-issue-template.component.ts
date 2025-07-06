@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { UserRole } from '../../core/models/user.model';
 import { ErrorHandlingService } from '../../core/services/error-handling.service';
 import { PermissionService } from '../../core/services/permission.service';
@@ -30,10 +29,9 @@ export class ViewIssueTemplateComponent implements OnInit, OnChanges {
   issueTemplate: IssueTemplate;
   isIssueTemplateLoading = true;
   isTutorResponseEditing = false;
-  isIssueDescriptionEditing = false;
+  isIssueTemplateDescriptionEditing = false;
   isTeamResponseEditing = false;
   isTesterResponseEditing = false;
-  issueSubscription: Subscription;
 
   @Input() issueTemplateName: string;
   @Input() issueTemplateComponents: ISSUE_TEMPLATE_COMPONENTS[];
@@ -70,7 +68,7 @@ export class ViewIssueTemplateComponent implements OnInit, OnChanges {
   }
 
   isEditing(): boolean {
-    return this.isIssueDescriptionEditing;
+    return this.isIssueTemplateDescriptionEditing;
   }
 
   updateIssueTemplate(newIssueTemplate: IssueTemplate) {
@@ -79,13 +77,14 @@ export class ViewIssueTemplateComponent implements OnInit, OnChanges {
   }
 
   updateDescriptionEditState(updatedState: boolean) {
-    this.isIssueDescriptionEditing = updatedState;
+    this.isIssueTemplateDescriptionEditing = updatedState;
   }
 
   private getIssueTempalate(name: string): void {
     try {
       const issueTemplate = this.issueTemplateService.getTemplate(name);
       this.issueTemplate = issueTemplate;
+      this.isIssueTemplateLoading = false;
     } catch (err) {
       this.router.navigateByUrl(this.phaseService.currentPhase).then(() => {
         this.errorHandlingService.handleError(new Error('Invalid URL provided!'));

@@ -1,15 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { finalize } from 'rxjs/operators';
-import { Issue } from '../../../core/models/issue.model';
 import { DialogService } from '../../../core/services/dialog.service';
 import { ErrorHandlingService } from '../../../core/services/error-handling.service';
-import { IssueService } from '../../../core/services/issue.service';
 import { LoadingService } from '../../../core/services/loading.service';
 import { PermissionService } from '../../../core/services/permission.service';
 import { PhaseService } from '../../../core/services/phase.service';
 import { IssueTemplate } from '../../../core/models/issue-template.model';
-import { IssueTemplateService } from '../../../core/services/issue-template.service';
 
 @Component({
   selector: 'app-issue-template-title',
@@ -38,7 +34,6 @@ export class TitleComponent implements OnInit {
   private readonly noButtonModalMessage = 'Continue editing';
 
   constructor(
-    private issueTemplateService: IssueTemplateService,
     private formBuilder: FormBuilder,
     private errorHandlingService: ErrorHandlingService,
     public permissions: PermissionService,

@@ -1,19 +1,24 @@
 <h3 class="mat-title">{{ descriptionTitle }}</h3>
-<form [formGroup]="issueDescriptionForm" #myForm="ngForm" (ngSubmit)="updateDescription(myForm)">
+<form [formGroup]="issueTemplateDescriptionForm" #myForm="ngForm" (ngSubmit)="updateDescription(myForm)">
   <div class="timeline-comment">
     <div class="timeline-header">
-      <button style="float: right" mat-button *ngIf="permissions.isIssueDescriptionEditable() && !isEditing" (click)="changeToEditMode()">
+      <button
+        style="float: right"
+        mat-button
+        *ngIf="permissions.isTemplateDescriptionEditable() && !isEditing"
+        (click)="changeToEditMode()"
+      >
         Edit
       </button>
     </div>
     <div *ngIf="!isEditing" class="comment">
-      <markdown [data]="issue.description" disableInternalLink></markdown>
+      <markdown [data]="issueTemplate.description" disableInternalLink></markdown>
     </div>
     <div *ngIf="isEditing">
       <app-comment-editor
         [id]="'description'"
-        [commentField]="this.issueDescriptionForm.get('description')"
-        [commentForm]="this.issueDescriptionForm"
+        [commentField]="this.issueTemplateDescriptionForm.get('description')"
+        [commentForm]="this.issueTemplateDescriptionForm"
         [(isFormPending)]="this.isSavePending"
         [(submitButtonText)]="this.submitButtonText"
       >
@@ -44,7 +49,7 @@
           class="editor-action"
           *ngIf="conflict"
           type="submit"
-          [disabled]="issueDescriptionForm.invalid || isSavePending"
+          [disabled]="issueTemplateDescriptionForm.invalid || isSavePending"
           mat-raised-button
           color="warn"
         >
@@ -54,7 +59,7 @@
           class="editor-action additional-editor-style"
           *ngIf="!conflict"
           type="submit"
-          [disabled]="issueDescriptionForm.invalid || isSavePending"
+          [disabled]="issueTemplateDescriptionForm.invalid || isSavePending"
           mat-stroked-button
           color="primary"
         >
