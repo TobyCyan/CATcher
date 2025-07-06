@@ -3,14 +3,14 @@
 </div>
 
 <div *ngIf="!isIssueTemplateLoading">
-  <app-issue-title [issue]="issue" (issueUpdated)="updateIssue($event)"></app-issue-title>
+  <app-issue-template-title [issueTemplate]="issueTemplate" (issueUpdated)="updateIssueTemplate($event)"></app-issue-template-title>
 
   <mat-divider></mat-divider>
 
   <div class="row">
     <div class="column left">
       <!-- Tester's Post -->
-      <app-issue-description
+      <app-issue-template-description
         [isEditing]="isIssueDescriptionEditing"
         (changeEditState)="updateDescriptionEditState($event)"
         *ngIf="this.isComponentVisible(issueComponentsEnum.TESTER_POST)"
@@ -18,22 +18,26 @@
         descriptionTitle="Description of Issue Template"
         (issueTemplateUpdated)="updateIssueTemplate($event)"
       >
-      </app-issue-description>
+      </app-issue-template-description>
 
       <div class="column right">
         <div>
           <!-- Severity Label -->
-          <app-issue-label
+          <app-issue-template-label
             *ngIf="this.isComponentVisible(issueComponentsEnum.SEVERITY_LABEL)"
-            [issue]="issue"
+            [issueTemplate]="issueTemplate"
             attributeName="severity"
             (issueTemplateUpdated)="updateIssueTemplate($event)"
-          ></app-issue-label>
+          ></app-issue-template-label>
 
           <!-- Bug Type Label -->
           <div *ngIf="this.isComponentVisible(issueComponentsEnum.TYPE_LABEL)">
             <mat-divider></mat-divider>
-            <app-issue-label [issue]="issue" attributeName="type" (issueTemplateUpdated)="updateIssueTemplate($event)"></app-issue-label>
+            <app-issue-template-label
+              [issueTemplate]="issueTemplate"
+              attributeName="type"
+              (issueTemplateUpdated)="updateIssueTemplate($event)"
+            ></app-issue-template-label>
           </div>
         </div>
       </div>
