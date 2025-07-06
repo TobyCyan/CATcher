@@ -22,7 +22,7 @@
         IMPORTANT: The filter logic relies on the structure of this DOM element.
         If you modify the structure, make sure to update the filter logic in the component to match the new structure.
       -->
-      <a class="no-underline link-grey-dark title-wrap"> {{ template.name }} </a>
+      <a class="no-underline link-grey-dark title-wrap" [routerLink]="'templates/' + template.name"> {{ template.name }} </a>
     </mat-cell>
   </ng-container>
 

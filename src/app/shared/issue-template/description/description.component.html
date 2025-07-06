@@ -2,6 +2,10 @@
 <form [formGroup]="issueTemplateDescriptionForm" #myForm="ngForm" (ngSubmit)="updateDescription(myForm)">
   <div class="timeline-comment">
     <div class="timeline-header">
+      <span>
+        <strong> Tester </strong> created template <strong>{{ issueTemplate.name }}</strong
+        >.
+      </span>
       <button
         style="float: right"
         mat-button
