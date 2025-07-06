@@ -1,0 +1,42 @@
+<div *ngIf="isIssueTemplateLoading" class="centralize">
+  <mat-spinner [diameter]="47"></mat-spinner>
+</div>
+
+<div *ngIf="!isIssueTemplateLoading">
+  <app-issue-title [issue]="issue" (issueUpdated)="updateIssue($event)"></app-issue-title>
+
+  <mat-divider></mat-divider>
+
+  <div class="row">
+    <div class="column left">
+      <!-- Tester's Post -->
+      <app-issue-description
+        [isEditing]="isIssueDescriptionEditing"
+        (changeEditState)="updateDescriptionEditState($event)"
+        *ngIf="this.isComponentVisible(issueComponentsEnum.TESTER_POST)"
+        [issueTemplate]="issueTemplate"
+        descriptionTitle="Description of Issue Template"
+        (issueTemplateUpdated)="updateIssueTemplate($event)"
+      >
+      </app-issue-description>
+
+      <div class="column right">
+        <div>
+          <!-- Severity Label -->
+          <app-issue-label
+            *ngIf="this.isComponentVisible(issueComponentsEnum.SEVERITY_LABEL)"
+            [issue]="issue"
+            attributeName="severity"
+            (issueTemplateUpdated)="updateIssueTemplate($event)"
+          ></app-issue-label>
+
+          <!-- Bug Type Label -->
+          <div *ngIf="this.isComponentVisible(issueComponentsEnum.TYPE_LABEL)">
+            <mat-divider></mat-divider>
+            <app-issue-label [issue]="issue" attributeName="type" (issueTemplateUpdated)="updateIssueTemplate($event)"></app-issue-label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

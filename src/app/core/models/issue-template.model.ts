@@ -26,6 +26,10 @@ export class IssueTemplate {
   isOpened(): boolean {
     return this.state === IssueTemplateState.OPEN;
   }
+
+  clone() {
+    return new IssueTemplate(this.name, this.title, this.description, this.severity, this.type, this.state);
+  }
 }
 
 export interface IssueTemplates {
