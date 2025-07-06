@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { LabelDefinitionPopupComponent } from '../../shared/label-definition-popup/label-definition-popup.component';
 import { UserConfirmationComponent } from '../guards/user-confirmation/user-confirmation.component';
 import { Issue } from '../models/issue.model';
+import { IssueTemplate } from '../models/issue-template.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,7 @@ export class DialogService {
     });
   }
 
-  checkIfFieldIsModified(form: FormGroup, initialField: string, formField: string, issue: Issue) {
+  checkIfFieldIsModified(form: FormGroup, initialField: string, formField: string, issue: Issue | IssueTemplate) {
     const issueTitleInitialValue = issue[initialField] || '';
     const isModified = form.get(formField).value !== issueTitleInitialValue;
     return isModified;

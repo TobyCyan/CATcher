@@ -47,9 +47,9 @@
           <app-label-dropdown initialValue="selectedTemplate.type" attributeName="type" [dropdownForm]="newIssueForm"></app-label-dropdown>
         </div>
         <div class="template-dropdown">
-          <app-template-dropdown initialValue="" attributeName="template" [dropdownForm]="newIssueForm"></app-template-dropdown>
+          <app-issue-template-dropdown initialValue="" attributeName="template" [dropdownForm]="newIssueForm"></app-issue-template-dropdown>
         </div>
-        <button type="button" mat-stroked-button class="create-new-template-button" color="primary" routerLink="../template/new">
+        <button type="button" mat-stroked-button class="create-new-template-button" color="primary" routerLink="../../templates/new">
           New Template
         </button>
       </div>

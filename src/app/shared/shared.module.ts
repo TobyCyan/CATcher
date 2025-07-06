@@ -8,10 +8,11 @@ import { InternalLinkDisableDirective } from '../core/directives/internal-link-d
 import { ActionToasterModule } from './action-toasters/action-toasters.module';
 import { ErrorToasterModule } from './error-toasters/error-toaster.module';
 import { MaterialModule } from './material.module';
+import { PaginatorLocalStorageDirective } from '../core/directives/paginator-local-storage.directive';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, RouterModule, MaterialModule, ErrorToasterModule],
-  declarations: [FormDisableControlDirective, InternalLinkDisableDirective],
+  declarations: [FormDisableControlDirective, InternalLinkDisableDirective, PaginatorLocalStorageDirective],
   exports: [
     FormDisableControlDirective,
     InternalLinkDisableDirective,
@@ -22,7 +23,8 @@ import { MaterialModule } from './material.module';
     RouterModule,
     MaterialModule,
     ErrorToasterModule,
-    ActionToasterModule
+    ActionToasterModule,
+    PaginatorLocalStorageDirective
   ]
 })
 export class SharedModule {}

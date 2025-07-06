@@ -4,21 +4,21 @@ import { Router } from '@angular/router';
 import { LabelService } from '../../core/services/label.service';
 import { noWhitespace } from '../../core/validators/noWhitespace.validator';
 import { SUBMIT_BUTTON_TEXT } from '../../shared/view-issue/view-issue.component';
-import { TemplateService } from '../../core/services/template.service';
+import { IssueTemplateService } from '../../core/services/issue-template.service';
 import { nameNotTaken } from '../../core/validators/nameNotTaken.validator';
 
 @Component({
-  selector: 'app-new-template',
-  templateUrl: './new-template.component.html',
-  styleUrls: ['./new-template.component.css']
+  selector: 'app-new-issue-template',
+  templateUrl: './new-issue-template.component.html',
+  styleUrls: ['./new-issue-template.component.css']
 })
-export class NewTemplateComponent implements OnInit {
+export class NewIssueTemplateComponent implements OnInit {
   newTemplateForm: FormGroup;
   isFormPending = false;
   submitButtonText: string;
 
   constructor(
-    private templateService: TemplateService,
+    private issueTemplateService: IssueTemplateService,
     private formBuilder: FormBuilder,
     public labelService: LabelService,
     private router: Router
@@ -26,7 +26,7 @@ export class NewTemplateComponent implements OnInit {
 
   ngOnInit() {
     this.newTemplateForm = this.formBuilder.group({
-      name: ['New Template', [Validators.required, Validators.maxLength(256), noWhitespace(), nameNotTaken(this.templateService)]],
+      name: ['New Template', [Validators.required, Validators.maxLength(256), noWhitespace(), nameNotTaken(this.issueTemplateService)]],
       title: ['', [Validators.required, Validators.maxLength(256), noWhitespace()]],
       description: [''],
       severity: ['', Validators.required],
@@ -42,21 +42,21 @@ export class NewTemplateComponent implements OnInit {
     }
 
     this.isFormPending = true;
-    const newTemplate = this.templateService.createTemplate(
+    const newTemplate = this.issueTemplateService.createTemplate(
       this.name.value,
       this.title.value,
       this.description.value,
       this.severity.value,
       this.type.value
     );
-    this.templateService.saveTemplate(newTemplate);
+    this.issueTemplateService.updateLocalStore(newTemplate);
     this.isFormPending = false;
-    this.router.navigateByUrl('phaseBugReporting/issues/new');
+    this.router.navigateByUrl('phaseBugReporting/');
     form.resetForm();
   }
 
   isNameTaken(name: string) {
-    return this.templateService.isNameTaken(name);
+    return this.issueTemplateService.isNameTaken(name);
   }
 
   canDeactivate() {

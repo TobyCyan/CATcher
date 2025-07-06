@@ -8,7 +8,7 @@ import { IssueService } from '../../core/services/issue.service';
 import { LabelService } from '../../core/services/label.service';
 import { noWhitespace } from '../../core/validators/noWhitespace.validator';
 import { SUBMIT_BUTTON_TEXT } from '../../shared/view-issue/view-issue.component';
-import { TemplateService } from '../../core/services/template.service';
+import { IssueTemplateService } from '../../core/services/issue-template.service';
 
 @Component({
   selector: 'app-new-issue',
@@ -26,7 +26,7 @@ export class NewIssueComponent implements OnInit {
     private errorHandlingService: ErrorHandlingService,
     public labelService: LabelService,
     private router: Router,
-    private templateService: TemplateService
+    private templateService: IssueTemplateService
   ) {}
 
   ngOnInit() {

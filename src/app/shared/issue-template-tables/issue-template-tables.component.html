@@ -1,0 +1,98 @@
+<mat-table
+  [dataSource]="this.issueTemplates"
+  matSort
+  [matSortActive]="this.tableSettings.sortActiveId"
+  [matSortDirection]="this.tableSettings.sortDirection"
+  (matSortChange)="this.sortChange($event)"
+  class="mat-elevation-z8"
+>
+  <!-- No. Column -->
+  <ng-container matColumnDef="no">
+    <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+    <mat-cell *matCellDef="let template; let i = index">
+      <span (click)="$event.stopPropagation()" style="cursor: default">{{ globalTableIndex(i) + 1 }}</span>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+    <mat-cell *matCellDef="let template">
+      <!--
+        IMPORTANT: The filter logic relies on the structure of this DOM element.
+        If you modify the structure, make sure to update the filter logic in the component to match the new structure.
+      -->
+      <a class="no-underline link-grey-dark title-wrap" [routerLink]="'templates/' + template.name"> {{ template.name }} </a>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Type Column -->
+  <ng-container matColumnDef="type">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
+    <mat-cell *matCellDef="let template">
+      <span
+        (click)="$event.stopPropagation()"
+        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('type', template.type))"
+        [matTooltip]="this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(template.type, 'type'))"
+        matTooltipClass="labelTooltip"
+      >
+        {{ template.type || '-' }}
+      </span>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Severity Column -->
+  <ng-container matColumnDef="severity">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Severity </mat-header-cell>
+    <mat-cell *matCellDef="let template">
+      <span
+        (click)="$event.stopPropagation()"
+        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('severity', template.severity))"
+        [matTooltip]="this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(template.severity, 'severity'))"
+        matTooltipClass="labelTooltip"
+      >
+        {{ template.severity || '-' }}
+      </span>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Action Buttons Column -->
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+    <mat-cell *matCellDef="let template">
+      <button
+        *ngIf="this.isActionVisible(action_buttons.FIX_ISSUE_TEMPLATE)"
+        mat-button
+        color="accent"
+        style="transform: scale(0.8)"
+        matTooltip="Edit this issue"
+        data-testid="edit_issue_button"
+        [routerLink]="'templates/' + template.name"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button
+        mat-button
+        color="warn"
+        *ngIf="!issueTemplatesPendingDeletion[template.name] && this.isActionVisible(action_buttons.DELETE_ISSUE_TEMPLATE)"
+        (click)="deleteIssueTemplate(template.name, $event); $event.stopPropagation()"
+        matTooltip="Delete this template"
+        style="transform: scale(0.8)"
+        data-testid="delete_issue_button"
+      >
+        <mat-icon>delete_outline</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="this.headers"></mat-header-row>>
+  <mat-row *matRowDef="let template; columns: this.headers" style="cursor: pointer"></mat-row>
+</mat-table>
+<br />
+<mat-paginator
+  [paginatorLocalStorage]="this.table_name"
+  [pageSize]="this.tableSettings.pageSize"
+  [pageSizeOptions]="[10, 20, 50]"
+  [pageIndex]="this.tableSettings.pageIndex"
+  (page)="this.pageChange($event)"
+></mat-paginator>
