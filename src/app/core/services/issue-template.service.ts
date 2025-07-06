@@ -63,7 +63,7 @@ export class IssueTemplateService {
   }
 
   isNameTaken(name: string) {
-    return this.getTemplates().some((template) => template.name === name);
+    return this.getTemplates().some((template) => template.name === name && template.state === IssueTemplateState.OPEN);
   }
 
   getTemplate(name: string) {
