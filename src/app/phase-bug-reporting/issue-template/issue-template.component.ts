@@ -27,6 +27,6 @@ export class IssueTemplateComponent implements OnInit {
   }
 
   canDeactivate(): boolean {
-    return true;
+    return !this.viewIssueTemplate.isEditing();
   }
 }
