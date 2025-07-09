@@ -2,10 +2,8 @@ import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/cor
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort, Sort } from '@angular/material/sort';
-import { Issue } from '../../core/models/issue.model';
 import { TableSettings } from '../../core/models/table-settings.model';
 import { ErrorHandlingService } from '../../core/services/error-handling.service';
-import { GithubService } from '../../core/services/github.service';
 import { IssueTableSettingsService } from '../../core/services/issue-table-settings.service';
 import { LabelService } from '../../core/services/label.service';
 import { LoggingService } from '../../core/services/logging.service';

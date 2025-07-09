@@ -1,0 +1,25 @@
+<div data-testid="app-issue-templates-deleted">
+  <mat-grid-list cols="3" rowHeight="80px">
+    <mat-grid-tile>
+      <div class="grid-flush-left">
+        <h1 class="mat-headline" style="margin: 0px">
+          {{ userService.currentUser.role === 'Student' ? 'Issue Templates you deleted' : 'All Deleted Issue Templates' }}
+        </h1>
+      </div>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <mat-form-field class="full-grid-width">
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search" />
+      </mat-form-field>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <app-issue-template-tables
+    class="text-strike-through"
+    table_name="tableIssueTemplatesDeleted"
+    [headers]="this.displayedColumns"
+    [actions]="this.actionButtons"
+    [filters]="this.filter"
+  ></app-issue-template-tables>
+</div>
