@@ -13,11 +13,7 @@ import { IssueTemplate } from '../../core/models/issue-template.model';
 })
 export class IssueTemplatesCreatedComponent implements OnInit {
   readonly displayedColumns = [TABLE_COLUMNS.NO, TABLE_COLUMNS.NAME, TABLE_COLUMNS.TYPE, TABLE_COLUMNS.SEVERITY, TABLE_COLUMNS.ACTIONS];
-  readonly actionButtons: ACTION_BUTTONS[] = [
-    ACTION_BUTTONS.DELETE_ISSUE_TEMPLATE,
-    ACTION_BUTTONS.RESTORE_ISSUE_TEMPLATE,
-    ACTION_BUTTONS.FIX_ISSUE_TEMPLATE
-  ];
+  readonly actionButtons: ACTION_BUTTONS[] = [ACTION_BUTTONS.DELETE_ISSUE_TEMPLATE, ACTION_BUTTONS.FIX_ISSUE_TEMPLATE];
   filter: (issueTemplate: IssueTemplate) => boolean;
 
   @ViewChild(IssueTemplateTablesComponent, { static: true }) table: IssueTemplateTablesComponent;

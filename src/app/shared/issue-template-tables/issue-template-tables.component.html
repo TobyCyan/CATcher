@@ -82,11 +82,36 @@
       >
         <mat-icon>delete_outline</mat-icon>
       </button>
+      <button
+        mat-button
+        color="primary"
+        *ngIf="!issueTemplatesPendingRestore[template.name] && this.isActionVisible(action_buttons.RESTORE_ISSUE_TEMPLATE)"
+        (click)="undeleteIssueTemplate(template.name, $event); $event.stopPropagation()"
+        matTooltip="Restore this issue template"
+        style="transform: scale(0.8)"
+      >
+        <mat-icon>restore_from_trash</mat-icon>
+        <mat-spinner
+          color="warn"
+          [diameter]="25"
+          style="display: inline; padding-right: 30px; margin-left: 5px"
+          *ngIf="
+            (issueTemplatesPendingDeletion[template.name] && this.isActionVisible(action_buttons.DELETE_ISSUE_TEMPLATE)) ||
+            (issueTemplatesPendingRestore[template.name] && this.isActionVisible(action_buttons.RESTORE_ISSUE_TEMPLATE))
+          "
+        ></mat-spinner>
+      </button>
     </mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="this.headers"></mat-header-row>>
-  <mat-row *matRowDef="let template; columns: this.headers" style="cursor: pointer"></mat-row>
+  <mat-row
+    *matRowDef="let template; columns: this.headers"
+    style="cursor: pointer"
+    (click)="this.logIssueEditRouting(issue.id)"
+    [routerLink]="'templates/' + template.name"
+    style="cursor: pointer"
+  ></mat-row>
 </mat-table>
 <br />
 <mat-paginator
