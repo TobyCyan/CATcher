@@ -73,4 +73,8 @@ export class IssueTemplateService {
   getTemplates() {
     return <IssueTemplate[]>Object.values(this.savedTemplates$.getValue());
   }
+
+  getOpenedTemplates() {
+    return this.getTemplates().filter((template) => template.isOpened());
+  }
 }
