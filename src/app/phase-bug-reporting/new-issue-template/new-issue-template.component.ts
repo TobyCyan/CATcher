@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LabelService } from '../../core/services/label.service';
@@ -21,19 +21,24 @@ export class NewIssueTemplateComponent implements OnInit {
     private issueTemplateService: IssueTemplateService,
     private formBuilder: FormBuilder,
     public labelService: LabelService,
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     this.newTemplateForm = this.formBuilder.group({
       name: ['New Template', [Validators.required, Validators.maxLength(256), noWhitespace(), nameNotTaken(this.issueTemplateService)]],
-      title: ['', [Validators.required, Validators.maxLength(256), noWhitespace()]],
+      title: ['', [Validators.maxLength(256), noWhitespace()]],
       description: [''],
-      severity: ['', Validators.required],
-      type: ['', Validators.required]
+      severity: [''],
+      type: ['']
     });
 
     this.submitButtonText = SUBMIT_BUTTON_TEXT.SUBMIT;
+  }
+
+  ngAfterViewInit() {
+    this.cd.detectChanges();
   }
 
   submitNewTemplate(form: NgForm) {
