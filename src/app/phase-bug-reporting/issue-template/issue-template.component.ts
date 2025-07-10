@@ -22,7 +22,7 @@ export class IssueTemplateComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
-      this.issueTemplateName = params['issue_template_name'];
+      this.issueTemplateName = decodeURIComponent(params['issue_template_name']);
     });
   }
 
