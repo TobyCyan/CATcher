@@ -58,12 +58,34 @@ export class IssueTemplateService {
     this.savedTemplates$.next(Object.values(this.savedTemplates));
   }
 
-  setTemplate(name: string) {
-    this.templateUsed = this.getTemplate(name);
+  /**
+   * This function will generate a unique name (i.e. a name that is not found in an open template).
+   *
+   * @returns the generated unique name.
+   */
+  getUniqueName() {
+    const defaultName = 'New Template';
+    const existingNames = new Set(this.getOpenedTemplates().map((t) => t.name));
+
+    if (!existingNames.has(defaultName)) {
+      return defaultName;
+    }
+
+    let index = 2;
+    let name: string;
+    do {
+      name = `${defaultName} ${index++}`;
+    } while (existingNames.has(name));
+
+    return name;
   }
 
   isNameTaken(name: string) {
     return this.getTemplates().some((template) => template.name === name && template.state === IssueTemplateState.OPEN);
+  }
+
+  setTemplate(name: string) {
+    this.templateUsed = this.getTemplate(name);
   }
 
   getTemplate(name: string) {

@@ -27,7 +27,10 @@ export class NewIssueTemplateComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.newTemplateForm = this.formBuilder.group({
-      name: ['New Template', [Validators.required, Validators.maxLength(256), noWhitespace(), nameNotTaken(this.issueTemplateService)]],
+      name: [
+        this.issueTemplateService.getUniqueName(),
+        [Validators.required, Validators.maxLength(256), noWhitespace(), nameNotTaken(this.issueTemplateService)]
+      ],
       title: ['', [Validators.maxLength(256), noWhitespace()]],
       description: [''],
       severity: [''],
