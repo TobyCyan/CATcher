@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class IssueTemplateService {
-  savedTemplates: IssueTemplates;
+  savedTemplates: IssueTemplates = {};
   savedTemplates$: BehaviorSubject<IssueTemplate[]>;
   templateUsed: IssueTemplate;
 
@@ -65,7 +65,7 @@ export class IssueTemplateService {
    */
   getUniqueName() {
     const defaultName = 'New Template';
-    const existingNames = new Set(this.getOpenedTemplates().map((t) => t.name));
+    const existingNames = new Set(this.getOpenedTemplates().map((template) => template.name));
 
     if (!existingNames.has(defaultName)) {
       return defaultName;
@@ -82,10 +82,6 @@ export class IssueTemplateService {
 
   isNameTaken(name: string) {
     return this.getTemplates().some((template) => template.name === name && template.state === IssueTemplateState.OPEN);
-  }
-
-  setTemplate(name: string) {
-    this.templateUsed = this.getTemplate(name);
   }
 
   getTemplate(name: string) {

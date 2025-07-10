@@ -49,7 +49,7 @@ export class ViewIssueTemplateComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit() {
-    this.getIssueTempalate(this.issueTemplateName);
+    this.getIssueTemplate(this.issueTemplateName);
   }
 
   /**
@@ -59,7 +59,7 @@ export class ViewIssueTemplateComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (!changes.issueTemplateName.firstChange) {
       this.isIssueTemplateLoading = true;
-      this.getIssueTempalate(changes.issueTemplateName.currentValue);
+      this.getIssueTemplate(changes.issueTemplateName.currentValue);
     }
   }
 
@@ -80,7 +80,7 @@ export class ViewIssueTemplateComponent implements OnInit, OnChanges {
     this.isIssueTemplateDescriptionEditing = updatedState;
   }
 
-  private getIssueTempalate(name: string): void {
+  private getIssueTemplate(name: string): void {
     try {
       const issueTemplate = this.issueTemplateService.getTemplate(name);
       this.issueTemplate = issueTemplate;
