@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LabelService } from '../../core/services/label.service';
@@ -12,7 +12,7 @@ import { nameNotTaken } from '../../core/validators/nameNotTaken.validator';
   templateUrl: './new-issue-template.component.html',
   styleUrls: ['./new-issue-template.component.css']
 })
-export class NewIssueTemplateComponent implements OnInit {
+export class NewIssueTemplateComponent implements OnInit, AfterViewInit {
   newTemplateForm: FormGroup;
   isFormPending = false;
   submitButtonText: string;
