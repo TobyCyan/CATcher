@@ -46,10 +46,15 @@
 
       <div class="column right">
         <div class="severity-dropdown">
-          <app-label-dropdown initialValue="" attributeName="severity" [dropdownForm]="newTemplateForm"></app-label-dropdown>
+          <app-label-dropdown
+            initialValue=""
+            attributeName="severity"
+            [dropdownForm]="newTemplateForm"
+            isRequired="false"
+          ></app-label-dropdown>
         </div>
         <div class="bug-dropdown">
-          <app-label-dropdown initialValue="" attributeName="type" [dropdownForm]="newTemplateForm"></app-label-dropdown>
+          <app-label-dropdown initialValue="" attributeName="type" [dropdownForm]="newTemplateForm" isRequired="false"></app-label-dropdown>
         </div>
       </div>
     </div>
