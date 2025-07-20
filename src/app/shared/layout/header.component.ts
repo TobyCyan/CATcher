@@ -117,7 +117,10 @@ export class HeaderComponent implements OnInit {
   }
 
   goBack() {
-    if (this.prevUrl === `/${this.phaseService.currentPhase}/issues/new`) {
+    if (
+      this.prevUrl === `/${this.phaseService.currentPhase}/issues/new` ||
+      this.prevUrl === `/${this.phaseService.currentPhase}/templates/new`
+    ) {
       this.router.navigate(['/phaseBugReporting']);
     } else {
       this.location.back();

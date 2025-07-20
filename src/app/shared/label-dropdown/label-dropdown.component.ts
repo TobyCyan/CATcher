@@ -17,6 +17,7 @@ export class LabelDropdownComponent implements OnInit {
   @Input() attributeName: LabelCategory;
   @Input() initialValue: string;
   @Input() dropdownForm: FormGroup;
+  @Input() isRequired = true;
 
   selectedColor: string;
   labelList: Label[];
@@ -27,6 +28,9 @@ export class LabelDropdownComponent implements OnInit {
     this.selectedColor = this.labelService.getColorOfLabel(this.attributeName, this.initialValue);
     this.labelList = this.labelService.getLabelList(this.attributeName);
     this.dropdownControl = this.dropdownForm.get(this.attributeName);
+    this.dropdownControl.valueChanges.subscribe((value) => {
+      this.setSelectedLabelColor(this.attributeName, this.dropdownControl.value);
+    });
   }
 
   setSelectedLabelColor(attributeName: LabelCategory, labelValue: string) {

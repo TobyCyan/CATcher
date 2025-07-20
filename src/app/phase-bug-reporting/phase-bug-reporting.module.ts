@@ -8,22 +8,44 @@ import { SharedModule } from '../shared/shared.module';
 import { ViewIssueModule } from '../shared/view-issue/view-issue.module';
 import { IssueComponent } from './issue/issue.component';
 import { NewIssueComponent } from './new-issue/new-issue.component';
+import { NewIssueTemplateComponent } from './new-issue-template/new-issue-template.component';
 import { PhaseBugReportingRoutingModule } from './phase-bug-reporting-routing.module';
 import { PhaseBugReportingComponent } from './phase-bug-reporting.component';
 import { IssuesPostedComponent } from './issues-posted/issues-posted.component';
 import { IssuesDeletedComponent } from './issues-deleted/issues-deleted.component';
+import { TemplateDropdownModule } from '../shared/issue-template-dropdown/issue-template-dropdown.module';
+import { IssueTemplatesCreatedComponent } from './issue-templates-created/issue-templates-created.component';
+import { IssueTemplateTablesModule } from '../shared/issue-template-tables/issue-template-tables.module';
+import { ViewIssueTemplateModule } from '../shared/view-issue-template/view-issue-template.module';
+import { IssueTemplateComponent } from './issue-template/issue-template.component';
+import { IssueTemplateComponentsModule } from '../shared/issue-template/issue-template-components.module';
+import { IssueTemplatesDeletedComponent } from './issue-templates-deleted/issue-templates-deleted.component';
 
 @NgModule({
   imports: [
     PhaseBugReportingRoutingModule,
     SharedModule,
     IssueComponentsModule,
+    IssueTemplateComponentsModule,
     CommentEditorModule,
     ViewIssueModule,
+    ViewIssueTemplateModule,
     MarkdownModule.forChild(),
     IssueTablesModule,
-    LabelDropdownModule
+    LabelDropdownModule,
+    TemplateDropdownModule,
+    IssueTemplateTablesModule
   ],
-  declarations: [PhaseBugReportingComponent, NewIssueComponent, IssueComponent, IssuesPostedComponent, IssuesDeletedComponent]
+  declarations: [
+    PhaseBugReportingComponent,
+    NewIssueComponent,
+    NewIssueTemplateComponent,
+    IssueComponent,
+    IssueTemplateComponent,
+    IssuesPostedComponent,
+    IssuesDeletedComponent,
+    IssueTemplatesCreatedComponent,
+    IssueTemplatesDeletedComponent
+  ]
 })
 export class PhaseBugReportingModule {}

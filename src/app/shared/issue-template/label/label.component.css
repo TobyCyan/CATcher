@@ -1,0 +1,37 @@
+.no-arrow .mat-select-arrow {
+  visibility: hidden;
+}
+
+:host ::ng-deep .mat-progress-spinner {
+  color: rgba(0, 0, 0, 0.5);
+  display: inline-block;
+  vertical-align: middle;
+}
+
+::ng-deep .labelTooltip {
+  font-size: 1rem;
+}
+
+.option {
+  background-color: Transparent;
+  border: none;
+  outline: none;
+  margin-right: 30px;
+}
+
+.infoPopup {
+  background: transparent;
+  border: none;
+  outline: none;
+  text-align: center;
+}
+
+.labelLine {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+}
+
+.labelInfo {
+  font-size: 1em;
+  text-align: left;
+}

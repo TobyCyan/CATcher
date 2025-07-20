@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { finalize } from 'rxjs/operators';
+import { distinctUntilChanged, finalize } from 'rxjs/operators';
 import { Issue } from '../../core/models/issue.model';
 import { ErrorHandlingService } from '../../core/services/error-handling.service';
 import { IssueService } from '../../core/services/issue.service';
 import { LabelService } from '../../core/services/label.service';
 import { noWhitespace } from '../../core/validators/noWhitespace.validator';
 import { SUBMIT_BUTTON_TEXT } from '../../shared/view-issue/view-issue.component';
+import { IssueTemplateService } from '../../core/services/issue-template.service';
 
 @Component({
   selector: 'app-new-issue',
@@ -24,7 +25,8 @@ export class NewIssueComponent implements OnInit {
     private formBuilder: FormBuilder,
     private errorHandlingService: ErrorHandlingService,
     public labelService: LabelService,
-    private router: Router
+    private router: Router,
+    private templateService: IssueTemplateService
   ) {}
 
   ngOnInit() {
@@ -32,10 +34,26 @@ export class NewIssueComponent implements OnInit {
       title: ['', [Validators.required, Validators.maxLength(256), noWhitespace()]],
       description: [''],
       severity: ['', Validators.required],
-      type: ['', Validators.required]
+      type: ['', Validators.required],
+      template: ['']
     });
 
+    this.template.valueChanges.pipe(distinctUntilChanged()).subscribe((templateName) => this.onTemplateChange(templateName));
+
     this.submitButtonText = SUBMIT_BUTTON_TEXT.SUBMIT;
+  }
+
+  onTemplateChange(templateName: string) {
+    const templateUsed = this.templateService.getTemplate(templateName);
+    if (templateUsed !== undefined) {
+      this.newIssueForm.patchValue({
+        title: templateUsed.title,
+        description: templateUsed.description,
+        severity: templateUsed.severity,
+        type: templateUsed.type,
+        template: templateUsed.name
+      });
+    }
   }
 
   submitNewIssue(form: NgForm) {
@@ -86,5 +104,9 @@ export class NewIssueComponent implements OnInit {
 
   get type() {
     return this.newIssueForm.get('type');
+  }
+
+  get template() {
+    return this.newIssueForm.get('template');
   }
 }
