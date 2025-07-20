@@ -7,13 +7,13 @@ import { IssueTemplateTablesComponent } from '../../shared/issue-template-tables
 import { IssueTemplate } from '../../core/models/issue-template.model';
 
 @Component({
-  selector: 'app-issue-templates-created',
-  templateUrl: './issue-templates-created.component.html',
-  styleUrls: ['./issue-templates-created.component.css']
+  selector: 'app-issue-templates-deleted',
+  templateUrl: './issue-templates-deleted.component.html',
+  styleUrls: ['./issue-templates-deleted.component.css']
 })
-export class IssueTemplatesCreatedComponent implements OnInit {
+export class IssueTemplatesDeletedComponent implements OnInit {
   readonly displayedColumns = [TABLE_COLUMNS.NO, TABLE_COLUMNS.NAME, TABLE_COLUMNS.TYPE, TABLE_COLUMNS.SEVERITY, TABLE_COLUMNS.ACTIONS];
-  readonly actionButtons: ACTION_BUTTONS[] = [ACTION_BUTTONS.DELETE_ISSUE_TEMPLATE, ACTION_BUTTONS.FIX_ISSUE_TEMPLATE];
+  readonly actionButtons: ACTION_BUTTONS[] = [ACTION_BUTTONS.FIX_ISSUE_TEMPLATE, ACTION_BUTTONS.RESTORE_ISSUE_TEMPLATE];
   filter: (issueTemplate: IssueTemplate) => boolean;
 
   @ViewChild(IssueTemplateTablesComponent, { static: true }) table: IssueTemplateTablesComponent;
@@ -22,7 +22,7 @@ export class IssueTemplatesCreatedComponent implements OnInit {
 
   ngOnInit() {
     this.filter = (issueTemplate: IssueTemplate): boolean => {
-      return issueTemplate.isOpened();
+      return !issueTemplate.isOpened();
     };
   }
 

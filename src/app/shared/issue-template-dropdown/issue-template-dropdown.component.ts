@@ -23,8 +23,7 @@ export class IssueTemplateDropdownComponent implements OnInit {
   constructor(public templateService: IssueTemplateService, public labelService: LabelService) {}
 
   ngOnInit() {
-    this.templateList = this.templateService.getTemplates();
-    console.log(JSON.stringify(this.templateList));
+    this.templateList = this.templateService.getOpenedTemplates();
     this.dropdownControl = this.dropdownForm.get(this.attributeName);
   }
 }

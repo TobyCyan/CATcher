@@ -19,6 +19,7 @@ import { IssueTemplateTablesModule } from '../shared/issue-template-tables/issue
 import { ViewIssueTemplateModule } from '../shared/view-issue-template/view-issue-template.module';
 import { IssueTemplateComponent } from './issue-template/issue-template.component';
 import { IssueTemplateComponentsModule } from '../shared/issue-template/issue-template-components.module';
+import { IssueTemplatesDeletedComponent } from './issue-templates-deleted/issue-templates-deleted.component';
 
 @NgModule({
   imports: [
@@ -43,7 +44,8 @@ import { IssueTemplateComponentsModule } from '../shared/issue-template/issue-te
     IssueTemplateComponent,
     IssuesPostedComponent,
     IssuesDeletedComponent,
-    IssueTemplatesCreatedComponent
+    IssueTemplatesCreatedComponent,
+    IssueTemplatesDeletedComponent
   ]
 })
 export class PhaseBugReportingModule {}

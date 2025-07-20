@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class IssueTemplateService {
-  savedTemplates: IssueTemplates;
+  savedTemplates: IssueTemplates = {};
   savedTemplates$: BehaviorSubject<IssueTemplate[]>;
   templateUsed: IssueTemplate;
 
@@ -58,8 +58,26 @@ export class IssueTemplateService {
     this.savedTemplates$.next(Object.values(this.savedTemplates));
   }
 
-  setTemplate(name: string) {
-    this.templateUsed = this.getTemplate(name);
+  /**
+   * This function will generate a unique name (i.e. a name that is not found in an open template).
+   *
+   * @returns the generated unique name.
+   */
+  getUniqueName() {
+    const defaultName = 'New Template';
+    const existingNames = new Set(this.getOpenedTemplates().map((template) => template.name));
+
+    if (!existingNames.has(defaultName)) {
+      return defaultName;
+    }
+
+    let index = 2;
+    let name: string;
+    do {
+      name = `${defaultName} ${index++}`;
+    } while (existingNames.has(name));
+
+    return name;
   }
 
   isNameTaken(name: string) {
@@ -72,5 +90,9 @@ export class IssueTemplateService {
 
   getTemplates() {
     return <IssueTemplate[]>Object.values(this.savedTemplates$.getValue());
+  }
+
+  getOpenedTemplates() {
+    return this.getTemplates().filter((template) => template.isOpened());
   }
 }

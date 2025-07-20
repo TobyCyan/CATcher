@@ -17,6 +17,7 @@ export class LabelDropdownComponent implements OnInit {
   @Input() attributeName: LabelCategory;
   @Input() initialValue: string;
   @Input() dropdownForm: FormGroup;
+  @Input() isRequired = true;
 
   selectedColor: string;
   labelList: Label[];

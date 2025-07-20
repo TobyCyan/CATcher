@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LabelService } from '../../core/services/label.service';
@@ -12,7 +12,7 @@ import { nameNotTaken } from '../../core/validators/nameNotTaken.validator';
   templateUrl: './new-issue-template.component.html',
   styleUrls: ['./new-issue-template.component.css']
 })
-export class NewIssueTemplateComponent implements OnInit {
+export class NewIssueTemplateComponent implements OnInit, AfterViewInit {
   newTemplateForm: FormGroup;
   isFormPending = false;
   submitButtonText: string;
@@ -21,19 +21,27 @@ export class NewIssueTemplateComponent implements OnInit {
     private issueTemplateService: IssueTemplateService,
     private formBuilder: FormBuilder,
     public labelService: LabelService,
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     this.newTemplateForm = this.formBuilder.group({
-      name: ['New Template', [Validators.required, Validators.maxLength(256), noWhitespace(), nameNotTaken(this.issueTemplateService)]],
-      title: ['', [Validators.required, Validators.maxLength(256), noWhitespace()]],
+      name: [
+        this.issueTemplateService.getUniqueName(),
+        [Validators.required, Validators.maxLength(256), noWhitespace(), nameNotTaken(this.issueTemplateService)]
+      ],
+      title: ['', [Validators.maxLength(256), noWhitespace()]],
       description: [''],
-      severity: ['', Validators.required],
-      type: ['', Validators.required]
+      severity: [''],
+      type: ['']
     });
 
     this.submitButtonText = SUBMIT_BUTTON_TEXT.SUBMIT;
+  }
+
+  ngAfterViewInit() {
+    this.cd.detectChanges();
   }
 
   submitNewTemplate(form: NgForm) {
@@ -51,7 +59,7 @@ export class NewIssueTemplateComponent implements OnInit {
     );
     this.issueTemplateService.updateLocalStore(newTemplate);
     this.isFormPending = false;
-    this.router.navigateByUrl('phaseBugReporting/');
+    this.router.navigate(['phaseBugReporting/templates/', encodeURIComponent(newTemplate.name)]);
     form.resetForm();
   }
 
