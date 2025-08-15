@@ -3,7 +3,7 @@ import { NewIssueComponent } from '../../../src/app/phase-bug-reporting/new-issu
 
 describe('NewIssueComponent', () => {
   let newIssueComponent: NewIssueComponent;
-  newIssueComponent = new NewIssueComponent(null, new FormBuilder(), null, null, null);
+  newIssueComponent = new NewIssueComponent(null, new FormBuilder(), null, null, null, null);
 
   describe('.isAttributeEditing()', () => {
     beforeEach(() => {

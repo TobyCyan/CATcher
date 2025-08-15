@@ -1,0 +1,62 @@
+<h1 class="mat-display-1 title">New Template</h1>
+
+<form [formGroup]="newTemplateForm" #myForm="ngForm" (ngSubmit)="submitNewTemplate(myForm)">
+  <div class="form">
+    <div class="row">
+      <div class="column left">
+        <mat-form-field>
+          <input id="name" formControlName="name" matInput placeholder="Name" required maxlength="256" />
+          <mat-error *ngIf="name.errors && name.errors['required'] && (name.touched || name.dirty)"> Name required. </mat-error>
+          <mat-error *ngIf="name.errors && name.errors['whitespace']"> Name cannot contain only whitespaces. </mat-error>
+          <mat-error *ngIf="name.errors && name.errors['maxlength']"> Name cannot exceed 256 characters. </mat-error>
+          <mat-hint *ngIf="name.value?.length >= 206"> {{ 256 - title.value?.length }} characters remaining. </mat-hint>
+          <mat-hint *ngIf="isNameTaken(name.value)"> Name {{ name.value }} is taken. </mat-hint>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input id="title" formControlName="title" matInput placeholder="Title" maxlength="256" />
+          <mat-error *ngIf="title.errors && title.errors['required'] && title.touched"> Title required. </mat-error>
+          <mat-error *ngIf="title.errors && title.errors['whitespace']"> Title cannot contain only whitespaces. </mat-error>
+          <mat-error *ngIf="title.errors && title.errors['maxlength']"> Title cannot exceed 256 characters. </mat-error>
+          <mat-hint *ngIf="title.value?.length >= 206"> {{ 256 - title.value?.length }} characters remaining. </mat-hint>
+        </mat-form-field>
+
+        <div style="margin: 10px 0 10px 0">
+          <app-comment-editor
+            [id]="'description'"
+            [commentField]="description"
+            [commentForm]="this.newTemplateForm"
+            [(isFormPending)]="this.isFormPending"
+            [(submitButtonText)]="this.submitButtonText"
+          >
+          </app-comment-editor>
+        </div>
+
+        <button
+          style="float: right"
+          class="submit-new-bug-report"
+          type="submit"
+          mat-stroked-button
+          color="primary"
+          [disabled]="!newTemplateForm.valid || isFormPending"
+        >
+          {{ this.submitButtonText }}
+        </button>
+      </div>
+
+      <div class="column right">
+        <div class="severity-dropdown">
+          <app-label-dropdown
+            initialValue=""
+            attributeName="severity"
+            [dropdownForm]="newTemplateForm"
+            isRequired="false"
+          ></app-label-dropdown>
+        </div>
+        <div class="bug-dropdown">
+          <app-label-dropdown initialValue="" attributeName="type" [dropdownForm]="newTemplateForm" isRequired="false"></app-label-dropdown>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

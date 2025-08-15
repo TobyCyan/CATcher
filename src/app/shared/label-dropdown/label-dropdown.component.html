@@ -7,7 +7,7 @@
       placeholder="{{ this.labelService.getLabelTitle(attributeName) }}"
       (selectionChange)="setSelectedLabelColor(attributeName, $event.value)"
       [ngStyle]="this.labelService.setLabelStyle(this.selectedColor, 'inline-block')"
-      required
+      [required]="isRequired"
       disableOptionCentering
     >
       <mat-select-trigger>
