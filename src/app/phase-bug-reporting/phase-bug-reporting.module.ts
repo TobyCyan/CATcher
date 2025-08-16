@@ -12,6 +12,7 @@ import { PhaseBugReportingRoutingModule } from './phase-bug-reporting-routing.mo
 import { PhaseBugReportingComponent } from './phase-bug-reporting.component';
 import { IssuesPostedComponent } from './issues-posted/issues-posted.component';
 import { IssuesDeletedComponent } from './issues-deleted/issues-deleted.component';
+import { CardViewModule } from '../shared/card-view/card-view.module';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { IssuesDeletedComponent } from './issues-deleted/issues-deleted.componen
     ViewIssueModule,
     MarkdownModule.forChild(),
     IssueTablesModule,
-    LabelDropdownModule
+    LabelDropdownModule,
+    CardViewModule
   ],
   declarations: [PhaseBugReportingComponent, NewIssueComponent, IssueComponent, IssuesPostedComponent, IssuesDeletedComponent]
 })

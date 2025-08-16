@@ -1,0 +1,24 @@
+<!-- MatSort Header Row -->
+<div matSort (matSortChange)="sortChange($event)" class="sort-header">
+  <button mat-sort-header="title">Title</button>
+  <button mat-sort-header="severity">Severity</button>
+  <button mat-sort-header="type">Type</button>
+</div>
+
+<div class="card-column">
+  <ng-container *ngIf="issues$ | async as issues; else loading">
+    <app-issue-card *ngFor="let issue of issues" [issue]="issue"></app-issue-card>
+  </ng-container>
+
+  <ng-template #loading>
+    <mat-spinner></mat-spinner>
+  </ng-template>
+</div>
+
+<mat-paginator
+  [paginatorLocalStorage]="this.table_name"
+  [pageSize]="this.tableSettings.pageSize"
+  [pageSizeOptions]="[10, 20, 50]"
+  [pageIndex]="this.tableSettings.pageIndex"
+  (page)="this.pageChange($event)"
+></mat-paginator>
