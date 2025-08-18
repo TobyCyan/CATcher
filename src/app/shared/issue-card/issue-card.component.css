@@ -68,3 +68,20 @@
   justify-content: flex-end;
   align-items: center;
 }
+
+.left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.left > * {
+  margin: 4px 0px 0px 0px;
+}
+
+.right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}

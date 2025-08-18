@@ -7,7 +7,19 @@
 
 <div class="card-column">
   <ng-container *ngIf="issues$ | async as issues; else loading">
-    <app-issue-card *ngFor="let issue of issues" [issue]="issue"></app-issue-card>
+    <app-issue-card
+      *ngFor="let issue of issues"
+      [issue]="issue"
+      [actions]="this.actions"
+      [isActionPerformAllowed]="isActionPerformAllowed"
+      [shouldEnablePendingActionSpinner]="shouldEnablePendingActionSpinner"
+      [deleteOrRestoreIssue]="deleteOrRestoreIssue"
+      [shouldEnableMarkAsResponded]="shouldEnableMarkAsResponded"
+      [shouldEnableEditIssue]="shouldEnableEditIssue"
+      [shouldEnableRespondToIssue]="shouldEnableRespondToIssue"
+      [shouldEnablePendingButton]="shouldEnablePendingButton"
+      (actionButtonClicked)="onActionButtonClick($event.action, $event.issueId, $event.event)"
+    ></app-issue-card>
   </ng-container>
 
   <ng-template #loading>

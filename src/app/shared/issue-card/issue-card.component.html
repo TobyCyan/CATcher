@@ -1,65 +1,149 @@
 <mat-card class="card">
-  <!-- Title Section -->
-  <mat-card-header>
-    <mat-card-title>
-      <!--
+  <mat-card-content class="content">
+    <mat-card-content class="left">
+      <!-- Title Section -->
+      <mat-card-title>
+        <!--
               IMPORTANT: The filter logic relies on the structure of this DOM element.
               If you modify the structure, make sure to update the filter logic in the component to match the new structure.
           -->
-      <a class="no-underline link-grey-dark title-wrap" [routerLink]="'issues/' + issue.id">
-        {{ issue.title }} <span style="color: #a3aab1">#{{ issue.id }}</span></a
+        <a class="no-underline link-grey-dark title-wrap" [routerLink]="'issues/' + issue.id">
+          {{ issue.title }} <span style="color: #a3aab1">#{{ issue.id }}</span></a
+        >
+      </mat-card-title>
+      <!-- Type Section -->
+      <span
+        (click)="$event.stopPropagation()"
+        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('type', issue.type))"
+        [matTooltip]="this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(issue.type, 'type'))"
+        matTooltipClass="labelTooltip"
       >
-    </mat-card-title>
-  </mat-card-header>
-  <mat-card-content class="content">
-    <!-- Type Section -->
-    <span
-      (click)="$event.stopPropagation()"
-      [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('type', issue.type))"
-      [matTooltip]="this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(issue.type, 'type'))"
-      matTooltipClass="labelTooltip"
-    >
-      {{ issue.type || '-' }}
-    </span>
-    <span
-      *ngIf="issue.teamChosenType && issue.teamChosenType != issue.type"
-      (click)="$event.stopPropagation()"
-      style="display: inline; padding: 1px 2px"
-    >
-      <mat-icon class="arrow-right">arrow_right_alt</mat-icon>
-    </span>
-    <span
-      *ngIf="issue.teamChosenType && issue.teamChosenType != issue.type"
-      (click)="$event.stopPropagation()"
-      [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('type', issue.teamChosenType))"
-      [matTooltip]="this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(issue.teamChosenType, 'type'))"
-      matTooltipClass="labelTooltip"
-    >
-      {{ issue.teamChosenType }}
-    </span>
+        {{ issue.type || '-' }}
+      </span>
+      <span
+        *ngIf="issue.teamChosenType && issue.teamChosenType != issue.type"
+        (click)="$event.stopPropagation()"
+        style="display: inline; padding: 1px 2px"
+      >
+        <mat-icon class="arrow-right">arrow_right_alt</mat-icon>
+      </span>
+      <span
+        *ngIf="issue.teamChosenType && issue.teamChosenType != issue.type"
+        (click)="$event.stopPropagation()"
+        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('type', issue.teamChosenType))"
+        [matTooltip]="this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(issue.teamChosenType, 'type'))"
+        matTooltipClass="labelTooltip"
+      >
+        {{ issue.teamChosenType }}
+      </span>
 
-    <!-- Severity Section -->
-    <span
-      (click)="$event.stopPropagation()"
-      [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('severity', issue.severity))"
-      [matTooltip]="this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(issue.severity, 'severity'))"
-      matTooltipClass="labelTooltip"
-    >
-      {{ issue.severity || '-' }}
-    </span>
-    <span
-      *ngIf="issue.teamChosenSeverity && issue.teamChosenSeverity != issue.severity"
-      (click)="$event.stopPropagation()"
-      style="display: inline; margin: 3px"
-    >
-      <mat-icon class="arrow-right">arrow_right_alt</mat-icon>
-    </span>
-    <span
-      *ngIf="issue.teamChosenSeverity && issue.teamChosenSeverity != issue.severity"
-      (click)="$event.stopPropagation()"
-      [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('severity', issue.teamChosenSeverity))"
-    >
-      {{ issue.teamChosenSeverity }}
-    </span>
+      <!-- Severity Section -->
+      <span
+        (click)="$event.stopPropagation()"
+        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('severity', issue.severity))"
+        [matTooltip]="this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(issue.severity, 'severity'))"
+        matTooltipClass="labelTooltip"
+      >
+        {{ issue.severity || '-' }}
+      </span>
+      <span
+        *ngIf="issue.teamChosenSeverity && issue.teamChosenSeverity != issue.severity"
+        (click)="$event.stopPropagation()"
+        style="display: inline; margin: 3px"
+      >
+        <mat-icon class="arrow-right">arrow_right_alt</mat-icon>
+      </span>
+      <span
+        *ngIf="issue.teamChosenSeverity && issue.teamChosenSeverity != issue.severity"
+        (click)="$event.stopPropagation()"
+        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('severity', issue.teamChosenSeverity))"
+      >
+        {{ issue.teamChosenSeverity }}
+      </span>
+    </mat-card-content>
+    <mat-card-content class="right">
+      <!-- Action Buttons Column -->
+      <button
+        mat-button
+        matTooltip="View this issue on GitHub"
+        *ngIf="this.isActionVisible(action_buttons.VIEW_IN_WEB)"
+        (click)="this.onActionButtonClick(action_buttons.VIEW_IN_WEB, $event)"
+        style="transform: scale(0.8)"
+      >
+        <mat-icon>open_in_new</mat-icon>
+      </button>
+      <button
+        *ngIf="shouldEnableRespondToIssue(issue); else tryEditIssue"
+        [routerLink]="'issues/' + issue.id"
+        mat-button
+        color="accent"
+        style="transform: scale(0.8)"
+        matTooltip="Respond to this issue"
+        (click)="this.logIssueRespondRouting(issue.id)"
+      >
+        <mat-icon>feedback</mat-icon>
+      </button>
+      <ng-template #tryEditIssue>
+        <button
+          *ngIf="shouldEnableEditIssue()"
+          mat-button
+          color="accent"
+          style="transform: scale(0.8)"
+          matTooltip="Edit this issue"
+          data-testid="edit_issue_button"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+      </ng-template>
+      <button
+        *ngIf="shouldEnableMarkAsResponded(issue)"
+        mat-button
+        color="primary"
+        (click)="markAsResponded(issue, $event)"
+        style="transform: scale(0.8)"
+        matTooltip="Mark this issue as Responded"
+        data-testid="mark_responded_button"
+      >
+        <mat-icon>check_circle</mat-icon>
+      </button>
+      <button
+        color="primary"
+        matTooltip="Mark this issue as Pending"
+        mat-button
+        (click)="markAsPending(issue, $event)"
+        style="transform: scale(0.8)"
+        *ngIf="shouldEnablePendingButton()"
+        data-testid="mark_pending_button"
+      >
+        <mat-icon>cancel</mat-icon>
+      </button>
+      <button
+        mat-button
+        color="warn"
+        *ngIf="isActionPerformAllowed(true, issue.id)"
+        (click)="deleteOrRestoreIssue(true, issue.id, $event)"
+        matTooltip="Delete this issue"
+        style="transform: scale(0.8)"
+        data-testid="delete_issue_button"
+      >
+        <mat-icon>delete_outline</mat-icon>
+      </button>
+      <button
+        mat-button
+        color="primary"
+        *ngIf="isActionPerformAllowed(false, issue.id)"
+        (click)="deleteOrRestoreIssue(false, issue.id, $event)"
+        matTooltip="Restore this issue"
+        style="transform: scale(0.8)"
+      >
+        <mat-icon>restore_from_trash</mat-icon>
+      </button>
+      <mat-spinner
+        color="warn"
+        [diameter]="25"
+        style="display: inline; padding-right: 30px; margin-left: 5px"
+        *ngIf="shouldEnablePendingActionSpinner(issue.id)"
+      ></mat-spinner>
+    </mat-card-content>
   </mat-card-content>
 </mat-card>
