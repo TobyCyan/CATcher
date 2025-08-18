@@ -1,3 +1,8 @@
 ::ng-deep .text-strike-through > mat-table > mat-row {
   text-decoration: line-through;
 }
+
+.container {
+  height: 100%;
+  width: 50vw;
+}
