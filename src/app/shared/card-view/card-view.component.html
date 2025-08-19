@@ -6,7 +6,7 @@
 </div>
 
 <div class="card-column">
-  <ng-container *ngIf="issues$ | async as issues; else loading">
+  <ng-container *ngIf="issues$ | async as issues">
     <app-issue-card
       *ngFor="let issue of issues; let i = index"
       [issue]="issue"

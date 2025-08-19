@@ -80,7 +80,7 @@
         Response: {{ issue.response }}
       </span>
       <span *ngIf="!issue.response">
-        <mat-icon matTooltip="Should not be empty" matTooltipPosition="above" color="warn">warning</mat-icon>
+        <mat-icon matTooltip="Response should not be empty" matTooltipPosition="above" color="warn">warning</mat-icon>
       </span>
 
       <!--Assignee Section-->
@@ -233,6 +233,5 @@
     </mat-card-content>
   </mat-card-content>
 
-  <mat-header-row *matHeaderRowDef="this.headers"></mat-header-row>
   <mat-row (click)="this.logIssueEditRouting()" [routerLink]="'issues/' + issue.id" style="cursor: pointer"></mat-row>
 </mat-card>
