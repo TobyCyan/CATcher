@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MarkdownModule } from 'ngx-markdown';
 import { CommentEditorModule } from '../shared/comment-editor/comment-editor.module';
-import { IssueTablesModule } from '../shared/issue-tables/issue-tables.module';
 import { IssueComponentsModule } from '../shared/issue/issue-components.module';
 import { SharedModule } from '../shared/shared.module';
 import { ViewIssueModule } from '../shared/view-issue/view-issue.module';
@@ -11,6 +10,7 @@ import { IssuesPendingComponent } from './issues-pending/issues-pending.componen
 import { IssuesRespondedComponent } from './issues-responded/issues-responded.component';
 import { PhaseTeamResponseRoutingModule } from './phase-team-response-routing.module';
 import { PhaseTeamResponseComponent } from './phase-team-response.component';
+import { CardViewModule } from '../shared/card-view/card-view.module';
 
 @NgModule({
   imports: [
@@ -20,7 +20,7 @@ import { PhaseTeamResponseComponent } from './phase-team-response.component';
     CommentEditorModule,
     ViewIssueModule,
     MarkdownModule.forChild(),
-    IssueTablesModule
+    CardViewModule
   ],
   declarations: [PhaseTeamResponseComponent, IssueComponent, IssuesPendingComponent, IssuesRespondedComponent, IssuesFaultyComponent]
 })

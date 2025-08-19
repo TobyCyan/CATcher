@@ -37,3 +37,10 @@
   flex-direction: row;
   height: 100%;
 }
+
+.issues-container > * {
+  margin: 0px 10px 0px 0px;
+  display: block;
+  height: 100%;
+  width: 50vw;
+}
