@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Issue, STATUS } from '../../core/models/issue.model';
 import { TABLE_COLUMNS } from '../../shared/issue-tables/issue-tables-columns';
-import { ACTION_BUTTONS, IssueTablesComponent } from '../../shared/issue-tables/issue-tables.component';
+import { ACTION_BUTTONS } from '../../shared/issue-tables/issue-tables.component';
+import { CardViewComponent } from '../../shared/card-view/card-view.component';
 
 @Component({
   selector: 'app-issue-responded',
@@ -9,7 +10,7 @@ import { ACTION_BUTTONS, IssueTablesComponent } from '../../shared/issue-tables/
   styleUrls: ['./issue-responded.component.css']
 })
 export class IssueRespondedComponent implements OnInit {
-  @ViewChild(IssueTablesComponent, { static: true }) table: IssueTablesComponent;
+  @ViewChild(CardViewComponent, { static: true }) cardView: CardViewComponent;
   readonly displayedColumns = [
     TABLE_COLUMNS.NO,
     TABLE_COLUMNS.TITLE,
@@ -30,6 +31,6 @@ export class IssueRespondedComponent implements OnInit {
   }
 
   applyFilter(filterValue: string) {
-    this.table.issues.filter = filterValue;
+    this.cardView.issues.filter = filterValue;
   }
 }
