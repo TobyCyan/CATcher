@@ -6,7 +6,6 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { TableSettings } from '../../core/models/table-settings.model';
 import { UserService } from '../../core/services/user.service';
 import { PermissionService } from '../../core/services/permission.service';
-import { GithubService } from '../../core/services/github.service';
 import { ErrorHandlingService } from '../../core/services/error-handling.service';
 import { IssueTableSettingsService } from '../../core/services/issue-table-settings.service';
 import { PhaseService } from '../../core/services/phase.service';
@@ -54,7 +53,6 @@ export class CardViewComponent implements OnInit, AfterViewInit {
   constructor(
     public userService: UserService,
     public permissions: PermissionService,
-    private githubService: GithubService,
     public issueService: IssueService,
     public issueTableSettingsService: IssueTableSettingsService,
     private phaseService: PhaseService,
@@ -98,7 +96,7 @@ export class CardViewComponent implements OnInit, AfterViewInit {
   };
 
   markAsResponded = (issue: Issue, event: Event) => {
-    this.logger.info(`IssueTablesComponent: Marking Issue ${issue.id} as Responded`);
+    this.logger.info(`CardViewComponent: Marking Issue ${issue.id} as Responded`);
     const newIssue = issue.clone(this.phaseService.currentPhase);
     newIssue.status = STATUS.Done;
     this.issueService.updateIssue(newIssue).subscribe(
@@ -117,7 +115,7 @@ export class CardViewComponent implements OnInit, AfterViewInit {
   };
 
   markAsPending = (issue: Issue, event: Event) => {
-    this.logger.info(`IssueTablesComponent: Marking Issue ${issue.id} as Pending`);
+    this.logger.info(`CardViewComponent: Marking Issue ${issue.id} as Pending`);
     const newIssue = issue.clone(this.phaseService.currentPhase);
     newIssue.status = STATUS.Incomplete;
     this.issueService.updateIssue(newIssue).subscribe(
@@ -131,38 +129,10 @@ export class CardViewComponent implements OnInit, AfterViewInit {
     event.stopPropagation();
   };
 
-  logIssueRespondRouting = (id: number) => {
-    this.logger.info(`IssueTablesComponent: Proceeding to Respond to Issue ${id}`);
-  };
-
-  logIssueEditRouting = (id: number) => {
-    this.logger.info(`IssueTablesComponent: Proceeding to Edit Issue ${id}`);
-  };
-
-  /**
-   * Gets the number of resolved disputes.
-   */
-  todoFinished = (issue: Issue): number => {
-    return issue.issueDisputes.length - issue.numOfUnresolvedDisputes();
-  };
-
-  /**
-   * Checks if all the disputes are resolved.
-   */
-  isTodoListChecked = (issue: Issue): boolean => {
-    return issue.issueDisputes && issue.numOfUnresolvedDisputes() === 0;
-  };
-
-  viewIssueInBrowser = (id: number, event: Event) => {
-    this.logger.info(`IssueTablesComponent: Opening Issue ${id} on Github`);
-    this.logger.info(`githubService is ${this.githubService.constructor.name}`);
-    this.githubService.viewIssueInBrowser(id, event);
-  };
-
   deleteOrRestoreIssue = (isDeleteAction: boolean, id: number, event: Event, actionUndoable: boolean = true) => {
     const deletingKeyword = 'Deleting';
     const undeletingKeyword = 'Undeleting';
-    this.logger.info(`IssueTablesComponent: ${isDeleteAction ? deletingKeyword : undeletingKeyword} Issue ${id}`);
+    this.logger.info(`CardViewComponent: ${isDeleteAction ? deletingKeyword : undeletingKeyword} Issue ${id}`);
 
     this.issuesPendingAction = { ...this.issuesPendingAction, [id]: true };
 
@@ -240,14 +210,4 @@ export class CardViewComponent implements OnInit, AfterViewInit {
   shouldEnableEditIssue = () => {
     return this.permissions.isIssueEditable() && this.isActionVisible(this.action_buttons.FIX_ISSUE);
   };
-
-  onActionButtonClick(action: ACTION_BUTTONS, issueId: number, event: Event) {
-    switch (action) {
-      case ACTION_BUTTONS.VIEW_IN_WEB:
-        this.viewIssueInBrowser(issueId, event);
-        break;
-      default:
-        break;
-    }
-  }
 }

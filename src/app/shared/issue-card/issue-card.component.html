@@ -1,6 +1,9 @@
 <mat-card class="card">
   <mat-card-content class="content">
     <mat-card-content class="left">
+      <!-- No. Section -->
+      <span (click)="$event.stopPropagation()" style="cursor: default">{{ globalTableIndex + 1 }}</span>
+
       <!-- Title Section -->
       <mat-card-title>
         <!--
@@ -11,6 +14,13 @@
           {{ issue.title }} <span style="color: #a3aab1">#{{ issue.id }}</span></a
         >
       </mat-card-title>
+
+      <!-- Team Assigned Section -->
+      <ng-container *ngIf="userService.currentUser.role !== 'Student'" matColumnDef="teamAssigned">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Team </mat-header-cell>
+        <mat-cell> {{ (issue.teamAssigned && issue.teamAssigned.id) || '-' }} </mat-cell>
+      </ng-container>
+
       <!-- Type Section -->
       <span
         (click)="$event.stopPropagation()"
@@ -60,14 +70,90 @@
       >
         {{ issue.teamChosenSeverity }}
       </span>
+
+      <!--Response Tag Section-->
+      <span
+        (click)="$event.stopPropagation()"
+        *ngIf="issue.response"
+        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('response', issue.response))"
+      >
+        Response: {{ issue.response }}
+      </span>
+      <span *ngIf="!issue.response">
+        <mat-icon matTooltip="Should not be empty" matTooltipPosition="above" color="warn">warning</mat-icon>
+      </span>
+
+      <!--Assignee Section-->
+      <span (click)="$event.stopPropagation()" style="cursor: default" *ngIf="!hasNoAssignees()">
+        Assignees: {{ issue.assignees.join(', ') }}
+      </span>
+      <span *ngIf="hasNoAssignees()">
+        <mat-icon matTooltip="We strongly recommend assigning all issues to someone" matTooltipPosition="above" style="color: #ffab40">
+          warning
+        </mat-icon>
+      </span>
+
+      <!-- Duplicated Issues Section -->
+      <span style="font-size: 12px"> Duplicates: </span>
+      <div *ngIf="(issueService.getDuplicateIssuesFor(issue) | async).length === 0">-</div>
+      <mat-chip-list
+        *ngFor="let duplicateIssue of issueService.getDuplicateIssuesFor(issue) | async"
+        style="display: inline-block; margin-left: 5px"
+      >
+        <mat-chip
+          [routerLink]="['issues/' + duplicateIssue.id]"
+          [matTooltip]="duplicateIssue.title"
+          matTooltipPosition="above"
+          style="font-size: 12px; cursor: pointer"
+        >
+          #{{ duplicateIssue.id }}
+        </mat-chip>
+      </mat-chip-list>
+
+      <!-- To do Section -->
+      <span *matHeaderCellDef mat-sort-header> Todo Remaining </span>
+      <span *ngIf="isTodoListChecked() && hasIssueDisputes()"> <font color="green">All tasks are completed</font> </span>
+      <span *ngIf="!isTodoListChecked() && hasIssueDisputes()">
+        <font color="red">{{ issue.issueDisputes.length - todoFinished() }}/{{ issue.issueDisputes.length }} tasks pending.</font></span
+      >
+      <progress
+        *ngIf="hasIssueDisputes()"
+        value="{{ todoFinished() }}"
+        max="{{ issue.issueDisputes.length }}"
+        role="progressbar"
+        style="width: 100%"
+        aria-valuenow="100"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      ></progress>
+      <span *ngIf="!hasIssueDisputes()"> No Todo List for this issue </span>
+
+      <!--Tester Disagree Section-->
+      <span mat-header-cell *matHeaderCellDef mat-sort-header>Response</span>
+      <!-- Response Agree/Disagree colours are the same as Response Agree/Rejected label colours for uniformity in the app -->
+      <span
+        (click)="$event.stopPropagation()"
+        *ngIf="issue.testerDisagree"
+        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('response', 'Rejected'))"
+      >
+        Disagree
+      </span>
+      <span
+        (click)="$event.stopPropagation()"
+        *ngIf="!issue.testerDisagree"
+        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('response', 'Accepted'))"
+      >
+        Agree
+      </span>
     </mat-card-content>
+
     <mat-card-content class="right">
       <!-- Action Buttons Column -->
       <button
         mat-button
         matTooltip="View this issue on GitHub"
         *ngIf="this.isActionVisible(action_buttons.VIEW_IN_WEB)"
-        (click)="viewIssueInBrowser(issue.id, $event)"
+        (click)="viewIssueInBrowser($event)"
         style="transform: scale(0.8)"
       >
         <mat-icon>open_in_new</mat-icon>
@@ -79,7 +165,7 @@
         color="accent"
         style="transform: scale(0.8)"
         matTooltip="Respond to this issue"
-        (click)="logIssueRespondRouting(issue.id)"
+        (click)="logIssueRespondRouting()"
       >
         <mat-icon>feedback</mat-icon>
       </button>
@@ -146,4 +232,7 @@
       ></mat-spinner>
     </mat-card-content>
   </mat-card-content>
+
+  <mat-header-row *matHeaderRowDef="this.headers"></mat-header-row>
+  <mat-row (click)="this.logIssueEditRouting()" [routerLink]="'issues/' + issue.id" style="cursor: pointer"></mat-row>
 </mat-card>
