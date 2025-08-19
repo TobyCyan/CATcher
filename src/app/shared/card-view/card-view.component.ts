@@ -77,27 +77,27 @@ export class CardViewComponent implements OnInit, AfterViewInit {
     });
   }
 
-  globalTableIndex(localTableIndex: number) {
+  globalTableIndex = (localTableIndex: number) => {
     return this.issues.getGlobalTableIndex(localTableIndex);
-  }
+  };
 
-  sortChange(newSort: Sort) {
+  sortChange = (newSort: Sort) => {
     this.tableSettings.sortActiveId = newSort.active;
     this.tableSettings.sortDirection = newSort.direction;
     this.issueTableSettingsService.setTableSettings(this.table_name, this.tableSettings);
-  }
+  };
 
-  pageChange(pageEvent: PageEvent) {
+  pageChange = (pageEvent: PageEvent) => {
     this.tableSettings.pageSize = pageEvent.pageSize;
     this.tableSettings.pageIndex = pageEvent.pageIndex;
     this.issueTableSettingsService.setTableSettings(this.table_name, this.tableSettings);
-  }
+  };
 
-  isActionVisible(action: ACTION_BUTTONS): boolean {
+  isActionVisible = (action: ACTION_BUTTONS): boolean => {
     return this.actions.includes(action);
-  }
+  };
 
-  markAsResponded(issue: Issue, event: Event) {
+  markAsResponded = (issue: Issue, event: Event) => {
     this.logger.info(`IssueTablesComponent: Marking Issue ${issue.id} as Responded`);
     const newIssue = issue.clone(this.phaseService.currentPhase);
     newIssue.status = STATUS.Done;
@@ -110,13 +110,13 @@ export class CardViewComponent implements OnInit, AfterViewInit {
       }
     );
     event.stopPropagation();
-  }
+  };
 
-  isResponseEditable() {
+  isResponseEditable = () => {
     return this.permissions.isTeamResponseEditable() || this.permissions.isTesterResponseEditable();
-  }
+  };
 
-  markAsPending(issue: Issue, event: Event) {
+  markAsPending = (issue: Issue, event: Event) => {
     this.logger.info(`IssueTablesComponent: Marking Issue ${issue.id} as Pending`);
     const newIssue = issue.clone(this.phaseService.currentPhase);
     newIssue.status = STATUS.Incomplete;
@@ -129,34 +129,35 @@ export class CardViewComponent implements OnInit, AfterViewInit {
       }
     );
     event.stopPropagation();
-  }
+  };
 
-  logIssueRespondRouting(id: number) {
+  logIssueRespondRouting = (id: number) => {
     this.logger.info(`IssueTablesComponent: Proceeding to Respond to Issue ${id}`);
-  }
+  };
 
-  logIssueEditRouting(id: number) {
+  logIssueEditRouting = (id: number) => {
     this.logger.info(`IssueTablesComponent: Proceeding to Edit Issue ${id}`);
-  }
+  };
 
   /**
    * Gets the number of resolved disputes.
    */
-  todoFinished(issue: Issue): number {
+  todoFinished = (issue: Issue): number => {
     return issue.issueDisputes.length - issue.numOfUnresolvedDisputes();
-  }
+  };
 
   /**
    * Checks if all the disputes are resolved.
    */
-  isTodoListChecked(issue: Issue): boolean {
+  isTodoListChecked = (issue: Issue): boolean => {
     return issue.issueDisputes && issue.numOfUnresolvedDisputes() === 0;
-  }
+  };
 
-  viewIssueInBrowser(id: number, event: Event) {
+  viewIssueInBrowser = (id: number, event: Event) => {
     this.logger.info(`IssueTablesComponent: Opening Issue ${id} on Github`);
+    this.logger.info(`githubService is ${this.githubService.constructor.name}`);
     this.githubService.viewIssueInBrowser(id, event);
-  }
+  };
 
   deleteOrRestoreIssue = (isDeleteAction: boolean, id: number, event: Event, actionUndoable: boolean = true) => {
     const deletingKeyword = 'Deleting';

@@ -7,7 +7,7 @@ import { IssueTablesComponent } from './issue-tables.component';
 
 @NgModule({
   exports: [IssueTablesComponent],
-  declarations: [IssueTablesComponent, PaginatorLocalStorageDirective],
+  declarations: [IssueTablesComponent],
   imports: [CommonModule, MaterialModule, RouterModule]
 })
 export class IssueTablesModule {}

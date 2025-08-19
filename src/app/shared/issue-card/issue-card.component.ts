@@ -20,20 +20,17 @@ export class IssueCardComponent {
   @Input() shouldEnableEditIssue!: () => boolean;
   @Input() shouldEnableRespondToIssue!: (issue: Issue) => boolean;
   @Input() shouldEnablePendingButton!: () => boolean;
+  @Input() logIssueRespondRouting!: (issueId: number) => void;
+  @Input() viewIssueInBrowser!: (issueId: number, event: Event) => void;
 
   public readonly action_buttons = ACTION_BUTTONS;
 
   @Output() actionButtonClicked: EventEmitter<IssueActionEvent> = new EventEmitter();
 
-  constructor(private labelService: LabelService, public permissions: PermissionService, private logger: LoggingService) {}
+  constructor(public labelService: LabelService, public permissions: PermissionService, private logger: LoggingService) {}
 
   isActionVisible(action: ACTION_BUTTONS): boolean {
     return this.actions.includes(action);
-  }
-
-  onActionButtonClick(action: ACTION_BUTTONS, event: Event): void {
-    this.actionButtonClicked.emit({ action: action, issueId: this.issue.id, event: event });
-    this.logger.info(`Action ${action} clicked for issue ${this.issue.id}`);
   }
 }
 

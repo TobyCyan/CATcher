@@ -67,7 +67,7 @@
         mat-button
         matTooltip="View this issue on GitHub"
         *ngIf="this.isActionVisible(action_buttons.VIEW_IN_WEB)"
-        (click)="this.onActionButtonClick(action_buttons.VIEW_IN_WEB, $event)"
+        (click)="viewIssueInBrowser(issue.id, $event)"
         style="transform: scale(0.8)"
       >
         <mat-icon>open_in_new</mat-icon>
@@ -79,7 +79,7 @@
         color="accent"
         style="transform: scale(0.8)"
         matTooltip="Respond to this issue"
-        (click)="this.logIssueRespondRouting(issue.id)"
+        (click)="logIssueRespondRouting(issue.id)"
       >
         <mat-icon>feedback</mat-icon>
       </button>
