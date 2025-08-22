@@ -4,7 +4,7 @@ import { UserRole } from '../../core/models/user.model';
 import { IssueService } from '../../core/services/issue.service';
 import { UserService } from '../../core/services/user.service';
 import { TABLE_COLUMNS } from '../../shared/issue-tables/issue-tables-columns';
-import { ACTION_BUTTONS } from '../../shared/issue-tables/issue-tables.component';
+import { ACTION_BUTTONS } from '../../shared/card-view/card-view.component';
 import { CardViewComponent } from '../../shared/card-view/card-view.component';
 
 @Component({
