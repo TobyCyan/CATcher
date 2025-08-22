@@ -1,0 +1,16 @@
+.card-column {
+  padding: 8px;
+  /* height: 77vh; */
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+}
+
+.sortButton {
+  background-color: transparent;
+  border: none;
+  color: var(--primary-text-color);
+  font-size: 1rem;
+  cursor: pointer;
+}

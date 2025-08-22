@@ -1,0 +1,40 @@
+<!-- MatSort Header Row -->
+<div matSort (matSortChange)="sortChange($event)" class="sort-header">
+  <button mat-sort-header="title" class="sortButton">Title</button>
+  <button mat-sort-header="severity" class="sortButton">Severity</button>
+  <button mat-sort-header="type" class="sortButton">Type</button>
+</div>
+
+<div class="card-column">
+  <ng-container *ngIf="issues$ | async as issues">
+    <app-issue-card
+      *ngFor="let issue of issues; let i = index"
+      [issue]="issue"
+      [actions]="this.actions"
+      [isActionPerformAllowed]="isActionPerformAllowed"
+      [shouldEnablePendingActionSpinner]="shouldEnablePendingActionSpinner"
+      [deleteOrRestoreIssue]="deleteOrRestoreIssue"
+      [shouldEnableMarkAsResponded]="shouldEnableMarkAsResponded"
+      [shouldEnableEditIssue]="shouldEnableEditIssue"
+      [shouldEnableRespondToIssue]="shouldEnableRespondToIssue"
+      [shouldEnablePendingButton]="shouldEnablePendingButton"
+      [markAsPending]="markAsPending"
+      [markAsResponded]="markAsResponded"
+      [globalTableIndex]="globalTableIndex(i)"
+      [headers]="headers"
+      (actionButtonClicked)="onActionButtonClick($event.action, $event.issueId, $event.event)"
+    ></app-issue-card>
+  </ng-container>
+</div>
+
+<mat-card *ngIf="this.issues.isLoading$ | async" style="display: flex; justify-content: center; align-items: center">
+  <mat-progress-spinner color="primary" mode="indeterminate" diameter="50" strokeWidth="5"></mat-progress-spinner>
+</mat-card>
+
+<mat-paginator
+  [paginatorLocalStorage]="this.table_name"
+  [pageSize]="this.tableSettings.pageSize"
+  [pageSizeOptions]="[10, 20, 50]"
+  [pageIndex]="this.tableSettings.pageIndex"
+  (page)="this.pageChange($event)"
+></mat-paginator>

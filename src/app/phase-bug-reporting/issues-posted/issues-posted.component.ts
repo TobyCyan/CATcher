@@ -2,8 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { PermissionService } from '../../core/services/permission.service';
 import { UserService } from '../../core/services/user.service';
 import { TABLE_COLUMNS } from '../../shared/issue-tables/issue-tables-columns';
-import { ACTION_BUTTONS, IssueTablesComponent } from '../../shared/issue-tables/issue-tables.component';
+import { ACTION_BUTTONS } from '../../shared/card-view/card-view.component';
 import { Issue } from '../../core/models/issue.model';
+import { CardViewComponent } from '../../shared/card-view/card-view.component';
 
 @Component({
   selector: 'app-issues-posted',
@@ -15,7 +16,7 @@ export class IssuesPostedComponent implements OnInit {
   readonly actionButtons: ACTION_BUTTONS[] = [ACTION_BUTTONS.VIEW_IN_WEB, ACTION_BUTTONS.DELETE_ISSUE, ACTION_BUTTONS.FIX_ISSUE];
   filter: (issue: Issue) => boolean;
 
-  @ViewChild(IssueTablesComponent, { static: true }) table: IssueTablesComponent;
+  @ViewChild(CardViewComponent, { static: true }) cardView: CardViewComponent;
 
   constructor(public permissions: PermissionService, public userService: UserService) {}
 
@@ -26,6 +27,6 @@ export class IssuesPostedComponent implements OnInit {
   }
 
   applyFilter(filterValue: string) {
-    this.table.issues.filter = filterValue;
+    this.cardView.issues.filter = filterValue;
   }
 }

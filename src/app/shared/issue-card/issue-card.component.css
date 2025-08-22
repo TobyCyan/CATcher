@@ -1,0 +1,88 @@
+.card {
+  margin: 8px 0px 8px 0px;
+  background-color: transparent;
+}
+
+.mat-card {
+  padding: 10px;
+}
+
+.column-header {
+  justify-content: center;
+  margin: 0;
+}
+
+.border-green {
+  border-left: 2.4px solid green;
+}
+
+.border-purple {
+  border-left: 2.4px solid purple;
+}
+
+.border-red {
+  border-left: 2.4px solid red;
+}
+
+.border-gray {
+  border-left: 2.4px solid gray;
+}
+
+.mat-card-content {
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  text-align: left;
+  margin: 0px;
+  padding: 0px;
+}
+
+.mat-card-subtitle {
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  text-align: left;
+  overflow: auto;
+  margin: 6px 0;
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.milestone-labels {
+  display: flex;
+  min-width: 0;
+}
+
+.reviews {
+  margin-left: auto;
+  width: auto;
+  display: flex;
+  gap: 3px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.left > * {
+  margin: 4px 0px 0px 0px;
+}
+
+.right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}

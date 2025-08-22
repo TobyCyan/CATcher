@@ -4,7 +4,8 @@ import { UserRole } from '../../core/models/user.model';
 import { IssueService } from '../../core/services/issue.service';
 import { UserService } from '../../core/services/user.service';
 import { TABLE_COLUMNS } from '../../shared/issue-tables/issue-tables-columns';
-import { ACTION_BUTTONS, IssueTablesComponent } from '../../shared/issue-tables/issue-tables.component';
+import { ACTION_BUTTONS } from '../../shared/card-view/card-view.component';
+import { CardViewComponent } from '../../shared/card-view/card-view.component';
 
 @Component({
   selector: 'app-issues-responded',
@@ -19,7 +20,7 @@ export class IssuesRespondedComponent implements OnInit, OnChanges {
 
   @Input() teamFilter: string;
 
-  @ViewChild(IssueTablesComponent, { static: true }) table: IssueTablesComponent;
+  @ViewChild(CardViewComponent, { static: true }) cardView: CardViewComponent;
 
   constructor(public issueService: IssueService, public userService: UserService) {
     if (userService.currentUser.role === UserRole.Student) {
@@ -50,7 +51,7 @@ export class IssuesRespondedComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (!changes.teamFilter.isFirstChange()) {
-      this.table.issues.teamFilter = changes.teamFilter.currentValue;
+      this.cardView.issues.teamFilter = changes.teamFilter.currentValue;
     }
   }
 
@@ -64,6 +65,6 @@ export class IssuesRespondedComponent implements OnInit, OnChanges {
   }
 
   applyFilter(filterValue: string) {
-    this.table.issues.filter = filterValue;
+    this.cardView.issues.filter = filterValue;
   }
 }

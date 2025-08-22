@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MarkdownModule } from 'ngx-markdown';
 import { CommentEditorModule } from '../shared/comment-editor/comment-editor.module';
-import { IssueTablesModule } from '../shared/issue-tables/issue-tables.module';
 import { IssueComponentsModule } from '../shared/issue/issue-components.module';
 import { LabelDropdownModule } from '../shared/label-dropdown/label-dropdown.module';
 import { SharedModule } from '../shared/shared.module';
@@ -12,6 +11,7 @@ import { PhaseBugReportingRoutingModule } from './phase-bug-reporting-routing.mo
 import { PhaseBugReportingComponent } from './phase-bug-reporting.component';
 import { IssuesPostedComponent } from './issues-posted/issues-posted.component';
 import { IssuesDeletedComponent } from './issues-deleted/issues-deleted.component';
+import { CardViewModule } from '../shared/card-view/card-view.module';
 
 @NgModule({
   imports: [
@@ -21,8 +21,8 @@ import { IssuesDeletedComponent } from './issues-deleted/issues-deleted.componen
     CommentEditorModule,
     ViewIssueModule,
     MarkdownModule.forChild(),
-    IssueTablesModule,
-    LabelDropdownModule
+    LabelDropdownModule,
+    CardViewModule
   ],
   declarations: [PhaseBugReportingComponent, NewIssueComponent, IssueComponent, IssuesPostedComponent, IssuesDeletedComponent]
 })
