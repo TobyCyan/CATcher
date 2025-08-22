@@ -23,6 +23,8 @@ export class IssueCardComponent {
   @Input() shouldEnableEditIssue!: () => boolean;
   @Input() shouldEnableRespondToIssue!: (issue: Issue) => boolean;
   @Input() shouldEnablePendingButton!: () => boolean;
+  @Input() markAsPending: (issue: Issue, event: Event) => void;
+  @Input() markAsResponded: (issue: Issue, event: Event) => void;
   @Input() globalTableIndex: number;
   @Input() headers: string[];
 

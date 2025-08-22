@@ -24,16 +24,17 @@ export class Table {
 
   async findRow({ title, severityLabel, bugTypeLabel }: TableBugReport) {
     const filteredRows = await this.table
-      .getByRole('row')
-      .filter({ has: this.page.getByRole('cell', { name: title }) })
-      .filter({ has: this.page.getByRole('cell', { name: severityLabel }) })
-      .filter({ has: this.page.getByRole('cell', { name: bugTypeLabel }) });
+      .locator('mat-card')
+      .filter({ has: this.page.getByRole('link', { name: title }) })
+      .filter({ hasText: severityLabel })
+      .filter({ hasText: bugTypeLabel });
 
     return filteredRows;
   }
 
   async clickRow(bugReport: TableBugReport) {
-    return (await this.findRow(bugReport)).click();
+    const card = await this.findRow(bugReport);
+    return card.getByRole('link', { name: bugReport.title }).click();
   }
 
   async clearSearch() {
