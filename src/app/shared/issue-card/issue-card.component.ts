@@ -24,6 +24,7 @@ export class IssueCardComponent {
   @Input() shouldEnableRespondToIssue!: (issue: Issue) => boolean;
   @Input() shouldEnablePendingButton!: () => boolean;
   @Input() globalTableIndex: number;
+  @Input() headers: string[];
 
   public readonly action_buttons = ACTION_BUTTONS;
 
@@ -79,6 +80,10 @@ export class IssueCardComponent {
 
   logIssueEditRouting() {
     this.logger.info(`IssueCardComponent: Proceeding to Edit Issue ${this.issue.id}`);
+  }
+
+  shouldRender(header: string) {
+    return this.headers.includes(header);
   }
 }
 

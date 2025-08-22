@@ -2,235 +2,257 @@
   <mat-card-content class="content">
     <mat-card-content class="left">
       <!-- No. Section -->
-      <span (click)="$event.stopPropagation()" style="cursor: default">{{ globalTableIndex + 1 }}</span>
+      <div *ngIf="shouldRender('no')">
+        <span (click)="$event.stopPropagation()" style="cursor: default">{{ globalTableIndex + 1 }}</span>
+      </div>
 
       <!-- Title Section -->
-      <mat-card-title>
-        <!--
-              IMPORTANT: The filter logic relies on the structure of this DOM element.
-              If you modify the structure, make sure to update the filter logic in the component to match the new structure.
-          -->
-        <a class="no-underline link-grey-dark title-wrap" [routerLink]="'issues/' + issue.id">
-          {{ issue.title }} <span style="color: #a3aab1">#{{ issue.id }}</span></a
-        >
-      </mat-card-title>
+      <div *ngIf="shouldRender('title')">
+        <mat-card-title>
+          <!--
+                IMPORTANT: The filter logic relies on the structure of this DOM element.
+                If you modify the structure, make sure to update the filter logic in the component to match the new structure.
+            -->
+          <a class="no-underline link-grey-dark title-wrap" [routerLink]="'issues/' + issue.id">
+            {{ issue.title }} <span style="color: #a3aab1">#{{ issue.id }}</span></a
+          >
+        </mat-card-title>
+      </div>
 
       <!-- Team Assigned Section -->
-      <ng-container *ngIf="userService.currentUser.role !== 'Student'" matColumnDef="teamAssigned">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Team </mat-header-cell>
-        <mat-cell> {{ (issue.teamAssigned && issue.teamAssigned.id) || '-' }} </mat-cell>
-      </ng-container>
+      <div *ngIf="shouldRender('teamAssigned')">
+        <ng-container *ngIf="userService.currentUser.role !== 'Student'" matColumnDef="teamAssigned">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Team </mat-header-cell>
+          <mat-cell> {{ (issue.teamAssigned && issue.teamAssigned.id) || '-' }} </mat-cell>
+        </ng-container>
+      </div>
 
       <!-- Type Section -->
-      <span
-        (click)="$event.stopPropagation()"
-        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('type', issue.type))"
-        [matTooltip]="this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(issue.type, 'type'))"
-        matTooltipClass="labelTooltip"
-      >
-        {{ issue.type || '-' }}
-      </span>
-      <span
-        *ngIf="issue.teamChosenType && issue.teamChosenType != issue.type"
-        (click)="$event.stopPropagation()"
-        style="display: inline; padding: 1px 2px"
-      >
-        <mat-icon class="arrow-right">arrow_right_alt</mat-icon>
-      </span>
-      <span
-        *ngIf="issue.teamChosenType && issue.teamChosenType != issue.type"
-        (click)="$event.stopPropagation()"
-        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('type', issue.teamChosenType))"
-        [matTooltip]="this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(issue.teamChosenType, 'type'))"
-        matTooltipClass="labelTooltip"
-      >
-        {{ issue.teamChosenType }}
-      </span>
+      <div *ngIf="shouldRender('type')">
+        <span
+          (click)="$event.stopPropagation()"
+          [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('type', issue.type))"
+          [matTooltip]="this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(issue.type, 'type'))"
+          matTooltipClass="labelTooltip"
+        >
+          {{ issue.type || '-' }}
+        </span>
+        <span
+          *ngIf="issue.teamChosenType && issue.teamChosenType != issue.type"
+          (click)="$event.stopPropagation()"
+          style="display: inline; padding: 1px 2px"
+        >
+          <mat-icon class="arrow-right">arrow_right_alt</mat-icon>
+        </span>
+        <span
+          *ngIf="issue.teamChosenType && issue.teamChosenType != issue.type"
+          (click)="$event.stopPropagation()"
+          [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('type', issue.teamChosenType))"
+          [matTooltip]="this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(issue.teamChosenType, 'type'))"
+          matTooltipClass="labelTooltip"
+        >
+          {{ issue.teamChosenType }}
+        </span>
+      </div>
 
       <!-- Severity Section -->
-      <span
-        (click)="$event.stopPropagation()"
-        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('severity', issue.severity))"
-        [matTooltip]="this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(issue.severity, 'severity'))"
-        matTooltipClass="labelTooltip"
-      >
-        {{ issue.severity || '-' }}
-      </span>
-      <span
-        *ngIf="issue.teamChosenSeverity && issue.teamChosenSeverity != issue.severity"
-        (click)="$event.stopPropagation()"
-        style="display: inline; margin: 3px"
-      >
-        <mat-icon class="arrow-right">arrow_right_alt</mat-icon>
-      </span>
-      <span
-        *ngIf="issue.teamChosenSeverity && issue.teamChosenSeverity != issue.severity"
-        (click)="$event.stopPropagation()"
-        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('severity', issue.teamChosenSeverity))"
-      >
-        {{ issue.teamChosenSeverity }}
-      </span>
+      <div *ngIf="shouldRender('severity')">
+        <span
+          (click)="$event.stopPropagation()"
+          [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('severity', issue.severity))"
+          [matTooltip]="this.labelService.parseLabelDefinitionMarkdown(this.labelService.getLabelDefinition(issue.severity, 'severity'))"
+          matTooltipClass="labelTooltip"
+        >
+          {{ issue.severity || '-' }}
+        </span>
+        <span
+          *ngIf="issue.teamChosenSeverity && issue.teamChosenSeverity != issue.severity"
+          (click)="$event.stopPropagation()"
+          style="display: inline; margin: 3px"
+        >
+          <mat-icon class="arrow-right">arrow_right_alt</mat-icon>
+        </span>
+        <span
+          *ngIf="issue.teamChosenSeverity && issue.teamChosenSeverity != issue.severity"
+          (click)="$event.stopPropagation()"
+          [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('severity', issue.teamChosenSeverity))"
+        >
+          {{ issue.teamChosenSeverity }}
+        </span>
+      </div>
 
       <!--Response Tag Section-->
-      <span
-        (click)="$event.stopPropagation()"
-        *ngIf="issue.response"
-        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('response', issue.response))"
-      >
-        Response: {{ issue.response }}
-      </span>
-      <span *ngIf="!issue.response">
-        <mat-icon matTooltip="Response should not be empty" matTooltipPosition="above" color="warn">warning</mat-icon>
-      </span>
+      <div *ngIf="shouldRender('response')">
+        <span
+          (click)="$event.stopPropagation()"
+          *ngIf="issue.response"
+          [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('response', issue.response))"
+        >
+          Response: {{ issue.response }}
+        </span>
+        <span *ngIf="!issue.response">
+          <mat-icon matTooltip="Response should not be empty" matTooltipPosition="above" color="warn">warning</mat-icon>
+        </span>
+      </div>
 
       <!--Assignee Section-->
-      <span (click)="$event.stopPropagation()" style="cursor: default" *ngIf="!hasNoAssignees()">
-        Assignees: {{ issue.assignees.join(', ') }}
-      </span>
-      <span *ngIf="hasNoAssignees()">
-        <mat-icon matTooltip="We strongly recommend assigning all issues to someone" matTooltipPosition="above" style="color: #ffab40">
-          warning
-        </mat-icon>
-      </span>
+      <div *ngIf="shouldRender('assignees')">
+        <span (click)="$event.stopPropagation()" style="cursor: default" *ngIf="!hasNoAssignees()">
+          Assignees: {{ issue.assignees.join(', ') }}
+        </span>
+        <span *ngIf="hasNoAssignees()">
+          <mat-icon matTooltip="We strongly recommend assigning all issues to someone" matTooltipPosition="above" style="color: #ffab40">
+            warning
+          </mat-icon>
+        </span>
+      </div>
 
       <!-- Duplicated Issues Section -->
-      <span style="font-size: 12px"> Duplicates: </span>
-      <div *ngIf="(issueService.getDuplicateIssuesFor(issue) | async).length === 0">-</div>
-      <mat-chip-list
-        *ngFor="let duplicateIssue of issueService.getDuplicateIssuesFor(issue) | async"
-        style="display: inline-block; margin-left: 5px"
-      >
-        <mat-chip
-          [routerLink]="['issues/' + duplicateIssue.id]"
-          [matTooltip]="duplicateIssue.title"
-          matTooltipPosition="above"
-          style="font-size: 12px; cursor: pointer"
+      <div *ngIf="shouldRender('duplicatedIssues')">
+        <span style="font-size: 12px"> Duplicates: </span>
+        <div *ngIf="(issueService.getDuplicateIssuesFor(issue) | async).length === 0">-</div>
+        <mat-chip-list
+          *ngFor="let duplicateIssue of issueService.getDuplicateIssuesFor(issue) | async"
+          style="display: inline-block; margin-left: 5px"
         >
-          #{{ duplicateIssue.id }}
-        </mat-chip>
-      </mat-chip-list>
+          <mat-chip
+            [routerLink]="['issues/' + duplicateIssue.id]"
+            [matTooltip]="duplicateIssue.title"
+            matTooltipPosition="above"
+            style="font-size: 12px; cursor: pointer"
+          >
+            #{{ duplicateIssue.id }}
+          </mat-chip>
+        </mat-chip-list>
+      </div>
 
       <!-- To do Section -->
-      <span *matHeaderCellDef mat-sort-header> Todo Remaining </span>
-      <span *ngIf="isTodoListChecked() && hasIssueDisputes()"> <font color="green">All tasks are completed</font> </span>
-      <span *ngIf="!isTodoListChecked() && hasIssueDisputes()">
-        <font color="red">{{ issue.issueDisputes.length - todoFinished() }}/{{ issue.issueDisputes.length }} tasks pending.</font></span
-      >
-      <progress
-        *ngIf="hasIssueDisputes()"
-        value="{{ todoFinished() }}"
-        max="{{ issue.issueDisputes.length }}"
-        role="progressbar"
-        style="width: 100%"
-        aria-valuenow="100"
-        aria-valuemin="0"
-        aria-valuemax="100"
-      ></progress>
-      <span *ngIf="!hasIssueDisputes()"> No Todo List for this issue </span>
+      <div *ngIf="shouldRender('Todo Remaining')">
+        <span *matHeaderCellDef mat-sort-header> Todo Remaining </span>
+        <span *ngIf="isTodoListChecked() && hasIssueDisputes()"> <font color="green">All tasks are completed</font> </span>
+        <span *ngIf="!isTodoListChecked() && hasIssueDisputes()">
+          <font color="red">{{ issue.issueDisputes.length - todoFinished() }}/{{ issue.issueDisputes.length }} tasks pending.</font></span
+        >
+        <progress
+          *ngIf="hasIssueDisputes()"
+          value="{{ todoFinished() }}"
+          max="{{ issue.issueDisputes.length }}"
+          role="progressbar"
+          style="width: 100%"
+          aria-valuenow="100"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        ></progress>
+        <span *ngIf="!hasIssueDisputes()"> No Todo List for this issue </span>
+      </div>
 
       <!--Tester Disagree Section-->
-      <span mat-header-cell *matHeaderCellDef mat-sort-header>Response</span>
-      <!-- Response Agree/Disagree colours are the same as Response Agree/Rejected label colours for uniformity in the app -->
-      <span
-        (click)="$event.stopPropagation()"
-        *ngIf="issue.testerDisagree"
-        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('response', 'Rejected'))"
-      >
-        Disagree
-      </span>
-      <span
-        (click)="$event.stopPropagation()"
-        *ngIf="!issue.testerDisagree"
-        [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('response', 'Accepted'))"
-      >
-        Agree
-      </span>
+      <div *ngIf="shouldRender('testerDisagree')">
+        <span mat-header-cell *matHeaderCellDef mat-sort-header>Response</span>
+        <!-- Response Agree/Disagree colours are the same as Response Agree/Rejected label colours for uniformity in the app -->
+        <span
+          (click)="$event.stopPropagation()"
+          *ngIf="issue.testerDisagree"
+          [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('response', 'Rejected'))"
+        >
+          Disagree
+        </span>
+        <span
+          (click)="$event.stopPropagation()"
+          *ngIf="!issue.testerDisagree"
+          [ngStyle]="this.labelService.setLabelStyle(this.labelService.getColorOfLabel('response', 'Accepted'))"
+        >
+          Agree
+        </span>
+      </div>
     </mat-card-content>
 
-    <mat-card-content class="right">
-      <!-- Action Buttons Column -->
-      <button
-        mat-button
-        matTooltip="View this issue on GitHub"
-        *ngIf="this.isActionVisible(action_buttons.VIEW_IN_WEB)"
-        (click)="viewIssueInBrowser($event)"
-        style="transform: scale(0.8)"
-      >
-        <mat-icon>open_in_new</mat-icon>
-      </button>
-      <button
-        *ngIf="shouldEnableRespondToIssue(issue); else tryEditIssue"
-        [routerLink]="'issues/' + issue.id"
-        mat-button
-        color="accent"
-        style="transform: scale(0.8)"
-        matTooltip="Respond to this issue"
-        (click)="logIssueRespondRouting()"
-      >
-        <mat-icon>feedback</mat-icon>
-      </button>
-      <ng-template #tryEditIssue>
+    <div *ngIf="shouldRender('actions')">
+      <mat-card-content class="right">
+        <!-- Action Buttons Column -->
         <button
-          *ngIf="shouldEnableEditIssue()"
+          mat-button
+          matTooltip="View this issue on GitHub"
+          *ngIf="this.isActionVisible(action_buttons.VIEW_IN_WEB)"
+          (click)="viewIssueInBrowser($event)"
+          style="transform: scale(0.8)"
+        >
+          <mat-icon>open_in_new</mat-icon>
+        </button>
+        <button
+          *ngIf="shouldEnableRespondToIssue(issue); else tryEditIssue"
+          [routerLink]="'issues/' + issue.id"
           mat-button
           color="accent"
           style="transform: scale(0.8)"
-          matTooltip="Edit this issue"
-          data-testid="edit_issue_button"
+          matTooltip="Respond to this issue"
+          (click)="logIssueRespondRouting()"
         >
-          <mat-icon>edit</mat-icon>
+          <mat-icon>feedback</mat-icon>
         </button>
-      </ng-template>
-      <button
-        *ngIf="shouldEnableMarkAsResponded(issue)"
-        mat-button
-        color="primary"
-        (click)="markAsResponded(issue, $event)"
-        style="transform: scale(0.8)"
-        matTooltip="Mark this issue as Responded"
-        data-testid="mark_responded_button"
-      >
-        <mat-icon>check_circle</mat-icon>
-      </button>
-      <button
-        color="primary"
-        matTooltip="Mark this issue as Pending"
-        mat-button
-        (click)="markAsPending(issue, $event)"
-        style="transform: scale(0.8)"
-        *ngIf="shouldEnablePendingButton()"
-        data-testid="mark_pending_button"
-      >
-        <mat-icon>cancel</mat-icon>
-      </button>
-      <button
-        mat-button
-        color="warn"
-        *ngIf="isActionPerformAllowed(true, issue.id)"
-        (click)="deleteOrRestoreIssue(true, issue.id, $event)"
-        matTooltip="Delete this issue"
-        style="transform: scale(0.8)"
-        data-testid="delete_issue_button"
-      >
-        <mat-icon>delete_outline</mat-icon>
-      </button>
-      <button
-        mat-button
-        color="primary"
-        *ngIf="isActionPerformAllowed(false, issue.id)"
-        (click)="deleteOrRestoreIssue(false, issue.id, $event)"
-        matTooltip="Restore this issue"
-        style="transform: scale(0.8)"
-      >
-        <mat-icon>restore_from_trash</mat-icon>
-      </button>
-      <mat-spinner
-        color="warn"
-        [diameter]="25"
-        style="display: inline; padding-right: 30px; margin-left: 5px"
-        *ngIf="shouldEnablePendingActionSpinner(issue.id)"
-      ></mat-spinner>
-    </mat-card-content>
+        <ng-template #tryEditIssue>
+          <button
+            *ngIf="shouldEnableEditIssue()"
+            mat-button
+            color="accent"
+            style="transform: scale(0.8)"
+            matTooltip="Edit this issue"
+            data-testid="edit_issue_button"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+        </ng-template>
+        <button
+          *ngIf="shouldEnableMarkAsResponded(issue)"
+          mat-button
+          color="primary"
+          (click)="markAsResponded(issue, $event)"
+          style="transform: scale(0.8)"
+          matTooltip="Mark this issue as Responded"
+          data-testid="mark_responded_button"
+        >
+          <mat-icon>check_circle</mat-icon>
+        </button>
+        <button
+          color="primary"
+          matTooltip="Mark this issue as Pending"
+          mat-button
+          (click)="markAsPending(issue, $event)"
+          style="transform: scale(0.8)"
+          *ngIf="shouldEnablePendingButton()"
+          data-testid="mark_pending_button"
+        >
+          <mat-icon>cancel</mat-icon>
+        </button>
+        <button
+          mat-button
+          color="warn"
+          *ngIf="isActionPerformAllowed(true, issue.id)"
+          (click)="deleteOrRestoreIssue(true, issue.id, $event)"
+          matTooltip="Delete this issue"
+          style="transform: scale(0.8)"
+          data-testid="delete_issue_button"
+        >
+          <mat-icon>delete_outline</mat-icon>
+        </button>
+        <button
+          mat-button
+          color="primary"
+          *ngIf="isActionPerformAllowed(false, issue.id)"
+          (click)="deleteOrRestoreIssue(false, issue.id, $event)"
+          matTooltip="Restore this issue"
+          style="transform: scale(0.8)"
+        >
+          <mat-icon>restore_from_trash</mat-icon>
+        </button>
+        <mat-spinner
+          color="warn"
+          [diameter]="25"
+          style="display: inline; padding-right: 30px; margin-left: 5px"
+          *ngIf="shouldEnablePendingActionSpinner(issue.id)"
+        ></mat-spinner>
+      </mat-card-content>
+    </div>
   </mat-card-content>
 
   <mat-row (click)="this.logIssueEditRouting()" [routerLink]="'issues/' + issue.id" style="cursor: pointer"></mat-row>

@@ -19,7 +19,7 @@
       [shouldEnableRespondToIssue]="shouldEnableRespondToIssue"
       [shouldEnablePendingButton]="shouldEnablePendingButton"
       [globalTableIndex]="globalTableIndex(i)"
-      [is]
+      [headers]="headers"
       (actionButtonClicked)="onActionButtonClick($event.action, $event.issueId, $event.event)"
     ></app-issue-card>
   </ng-container>
