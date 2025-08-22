@@ -1,4 +1,4 @@
-<mat-card class="card">
+<mat-card class="card" (click)="this.logIssueEditRouting()" [routerLink]="'issues/' + issue.id" style="cursor: pointer">
   <mat-card-content class="content">
     <mat-card-content class="left">
       <!-- No. Section -->
@@ -254,6 +254,4 @@
       </mat-card-content>
     </div>
   </mat-card-content>
-
-  <mat-row (click)="this.logIssueEditRouting()" [routerLink]="'issues/' + issue.id" style="cursor: pointer"></mat-row>
 </mat-card>

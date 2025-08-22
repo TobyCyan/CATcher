@@ -33,7 +33,7 @@ test.describe("CATcher's Bug Reporting Phase", () => {
 
   test(`creates new bug report`, async ({ page }) => {
     await bugReportingPage.createBugReport(BUG_REPORT_1);
-    const isBugReportCorrectlyCreated: boolean = await postedTable.hasRow(BUG_REPORT_1);
+    const isBugReportCorrectlyCreated: boolean = await postedTable.hasCard(BUG_REPORT_1);
     expect(isBugReportCorrectlyCreated).toEqual(true);
   });
 
@@ -43,7 +43,7 @@ test.describe("CATcher's Bug Reporting Phase", () => {
     });
 
     test(`edits a bug report`, async ({ page }) => {
-      await postedTable.clickRow(BUG_REPORT_1);
+      await postedTable.clickCard(BUG_REPORT_1);
 
       await viewIssuePage.editIssueTitle(BUG_REPORT_2.title);
       await viewIssuePage.editIssueSeverity(BUG_REPORT_2.severityLabel);
@@ -52,27 +52,27 @@ test.describe("CATcher's Bug Reporting Phase", () => {
 
       await page.locator('.back-button').click();
 
-      const isBugReportCorrectlyEditted: boolean = await postedTable.hasRow(BUG_REPORT_2);
+      const isBugReportCorrectlyEditted: boolean = await postedTable.hasCard(BUG_REPORT_2);
       expect(isBugReportCorrectlyEditted).toEqual(true);
     });
 
     test(`closes a bug report`, async () => {
       await postedTable.deleteBugReport(BUG_REPORT_1);
-      const isBugReportDeleted: boolean = !(await postedTable.hasRow(BUG_REPORT_1));
+      const isBugReportDeleted: boolean = !(await postedTable.hasCard(BUG_REPORT_1));
       expect(isBugReportDeleted).toEqual(true);
 
-      const isBugReportMovedToDeletedTable: boolean = await deletedTable.hasRow(BUG_REPORT_1);
+      const isBugReportMovedToDeletedTable: boolean = await deletedTable.hasCard(BUG_REPORT_1);
       expect(isBugReportMovedToDeletedTable).toEqual(true);
     });
 
     test(`searching with title finds bug report`, async () => {
       await postedTable.search(BUG_REPORT_1.title);
-      const isBugReportFound: boolean = await postedTable.hasRow(BUG_REPORT_1);
+      const isBugReportFound: boolean = await postedTable.hasCard(BUG_REPORT_1);
       expect(isBugReportFound).toEqual(true);
 
       await postedTable.deleteBugReport(BUG_REPORT_1);
       await deletedTable.search(BUG_REPORT_1.title);
-      const isBugReportFoundInDeletedTable: boolean = await deletedTable.hasRow(BUG_REPORT_1);
+      const isBugReportFoundInDeletedTable: boolean = await deletedTable.hasCard(BUG_REPORT_1);
       expect(isBugReportFoundInDeletedTable).toEqual(true);
     });
 
@@ -80,13 +80,13 @@ test.describe("CATcher's Bug Reporting Phase", () => {
       const otherIssueTitle = 'Other Issue Title';
 
       await postedTable.search(otherIssueTitle);
-      const isBugReportNotFound: boolean = !(await postedTable.hasRow(BUG_REPORT_1));
+      const isBugReportNotFound: boolean = !(await postedTable.hasCard(BUG_REPORT_1));
       expect(isBugReportNotFound).toEqual(true);
 
       await postedTable.clearSearch();
       await postedTable.deleteBugReport(BUG_REPORT_1);
       await deletedTable.search(otherIssueTitle);
-      const isBugReportNotFoundInDeletedTable: boolean = !(await postedTable.hasRow(BUG_REPORT_1));
+      const isBugReportNotFoundInDeletedTable: boolean = !(await postedTable.hasCard(BUG_REPORT_1));
       expect(isBugReportNotFoundInDeletedTable).toEqual(true);
     });
   });

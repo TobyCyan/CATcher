@@ -48,12 +48,12 @@ test.describe("CATcher's Team Response Phase", () => {
     });
 
     test(`displays the pre-existing issue under pending`, async () => {
-      const isBugReportPresent = await pendingTable.hasRow(BUG_REPORT_1);
+      const isBugReportPresent = await pendingTable.hasCard(BUG_REPORT_1);
       expect(isBugReportPresent).toEqual(true);
     });
 
     test(`responding to issue moves issue to responded`, async ({ page }) => {
-      await pendingTable.clickRow(BUG_REPORT_1);
+      await pendingTable.clickCard(BUG_REPORT_1);
 
       await viewIssuePage.fillResponse(BUG_RESPONSE_1);
 
@@ -65,14 +65,14 @@ test.describe("CATcher's Team Response Phase", () => {
         bugTypeLabel: BUG_RESPONSE_1.bugTypeLabel
       };
 
-      const isBugReportCorrectlyMovedToRespondedTable = await respondedTable.hasRow(bugReportAfterResponse);
+      const isBugReportCorrectlyMovedToRespondedTable = await respondedTable.hasCard(bugReportAfterResponse);
 
       expect(isBugReportCorrectlyMovedToRespondedTable).toEqual(true);
     });
 
     test.describe(`with responded issue`, () => {
       test.beforeEach(async ({ page }) => {
-        await pendingTable.clickRow(BUG_REPORT_1);
+        await pendingTable.clickCard(BUG_REPORT_1);
         await viewIssuePage.fillResponse(BUG_RESPONSE_1);
         await page.locator('.back-button').click();
       });
@@ -84,16 +84,16 @@ test.describe("CATcher's Team Response Phase", () => {
           bugTypeLabel: BUG_RESPONSE_1.bugTypeLabel
         };
 
-        const markAsPendingButton = (await respondedTable.findRow(bugReportAfterResponse)).getByTestId('mark_pending_button');
+        const markAsPendingButton = (await respondedTable.findCard(bugReportAfterResponse)).getByTestId('mark_pending_button');
         await markAsPendingButton.click();
 
-        const isBugReportCorrectlyMovedToPendingTable = await pendingTable.hasRow(bugReportAfterResponse);
+        const isBugReportCorrectlyMovedToPendingTable = await pendingTable.hasCard(bugReportAfterResponse);
         expect(isBugReportCorrectlyMovedToPendingTable).toEqual(true);
 
-        const markAsRespondedButton = (await pendingTable.findRow(bugReportAfterResponse)).getByTestId('mark_responded_button');
+        const markAsRespondedButton = (await pendingTable.findCard(bugReportAfterResponse)).getByTestId('mark_responded_button');
         await markAsRespondedButton.click();
 
-        const isBugReportCorrectlyMovedToReportedTable = await respondedTable.hasRow(bugReportAfterResponse);
+        const isBugReportCorrectlyMovedToReportedTable = await respondedTable.hasCard(bugReportAfterResponse);
         expect(isBugReportCorrectlyMovedToReportedTable).toEqual(true);
       });
     });
